@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>JS Game</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="js/game.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#high-scores-page").hide();
+            $("#about-page").hide();
+            $("#canvas").hide();
+
+            $("#start-game-button").click(function() {
+                $("#menu-page").hide();
+                $("#canvas").show();
+
+                var game = new Game($("#canvas"));
+                game.startGame();
+            });
+
+            $("#high-scores-button").click(function() {
+                $("#menu-page").hide();
+                $("#high-scores-page").show();
+            });
+
+            $("#about-button").click(function() {
+                $("#menu-page").hide();
+                $("#about-page").show();
+            });
+
+            $(".back-button").click(function() {
+                $("#high-scores-page").hide();
+                $("#about-page").hide();
+                $("#menu-page").show();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="menu-page">
+            <h1>JSGame</h1>
+            <ul>
+                <li><a id="start-game-button" href="#">Start Game</a></li>
+                <li><a id="high-scores-button" href="#">High Scores</a></li>
+                <li><a id="about-button" href="#">About</a></li>
+            </ul>
+        </div>
+        <div id="high-scores-page">
+            <h1>High Scores</h1>
+            <a class="back-button" href="#">Back</a>
+        </div>
+        <div id="about-page">
+            <h1>About</h1>
+            <a class="back-button" href="#">Back</a>
+        </div>
+        <canvas id="canvas" width="800" height="600">
+            Your web browser does not support a canvas
+        </canvas>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+body {
+    background-color: #535353;
+}
+
+#wrapper {
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border: 5px solid #00f2e5;
+}
+
+#menu-page, #high-scores-page, #about-page, #canvas {
+    position: absolute;
+    background-color: black;
+    color: #00f2e5;
+    width: 800px;
+    height: 600px;
+}
