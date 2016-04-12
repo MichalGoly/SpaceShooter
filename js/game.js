@@ -5,6 +5,8 @@ var Game = function(canvas, context) {
     this.inputManager = new InputManager(this);
     this.inputManager.registerKeyListener();
     this.inputManager.registerMouseListener();
+    this.assetsManager = new AssetsManager();
+    this.assetsManager.loadAll();
 
     // game loop variables
     this.fps = 60;
@@ -18,7 +20,7 @@ Game.prototype.newGame = function() {
     this.score = 0;
     this.lives = 3;
 
-    this.spacecraft = new Spacecraft(this.inputManager);
+    this.spacecraft = new Spacecraft(this.inputManager, this.assetsManager);
 };
 
 Game.prototype.run = function() {
@@ -40,8 +42,12 @@ Game.prototype.update = function(delta) {
 };
 
 Game.prototype.render = function() {
-    this.context.fillStyle = "#000";
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.rect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.fillStyle =
+        this.context.createPattern(this.assetsManager.images["background"], "repeat");
+    this.context.fill();
+    //this.context.fillStyle = "#000";
+    //this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.spacecraft.draw(this.context);
 };

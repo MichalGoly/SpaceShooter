@@ -1,8 +1,7 @@
-var Spacecraft = function(inputManager) {
+var Spacecraft = function(inputManager, assetsManager) {
     this.inputManager = inputManager;
+    this.assetsManager = assetsManager;
 
-    this.image = new Image();
-    this.image.src = "assets/PNG/playerShip2_blue.png";
     this.width = 90;
     this.height = 60;
     this.xPosition = 300 - (this.width / 2);
@@ -10,8 +9,8 @@ var Spacecraft = function(inputManager) {
     this.mass = 500;
     this.xVelocity = 0;
     this.yVelocity = 0;
-    this.maxVelocity = 10;
-    this.accelerateFactor = 0.2; //TODO not hard coded
+    this.maxVelocity = 100;
+    this.accelerateFactor = 2; //TODO not hard coded
 
     this.isGoingLeft = false;
     this.isGoingRight = false;
@@ -24,45 +23,134 @@ Spacecraft.prototype.update = function() {
     this.updateDirection();
 
     if (this.isGoingUp) {
-        this.yPosition -= this.yVelocity;
+        this.yPosition -= (this.yVelocity / 10); // avoid using 0.1 accelerateFactor
+    } else if (this.isGoingDown) {
+        this.yPosition += (this.yVelocity / 10);
+    }
+
+    if (this.isGoingRight) {
+        this.xPosition += (this.xVelocity / 10);
+    } else if (this.isGoingLeft) {
+        this.xPosition -= (this.xVelocity / 10);
     }
 };
 
 Spacecraft.prototype.draw = function(ctx) {
-    ctx.drawImage(this.image, this.xPosition, this.yPosition, this.width, this.height);
+    ctx.drawImage(this.assetsManager.images["spacecraft"], this.xPosition,
+            this.yPosition, this.width, this.height);
 };
 
 Spacecraft.prototype.slowDown = function() {
-    if (this.xVelocity > 0) {
+    if (this.yVelocity > 0 && !this.inputManager.keys[38] && this.isGoingUp) {
+        this.yVelocity -= this.accelerateFactor;
+    }
+
+    if (this.yVelocity > 0 && !this.inputManager.keys[40] && this.isGoingDown) {
+        this.yVelocity -= this.accelerateFactor;
+    }
+
+    if (this.xVelocity > 0 && !this.inputManager.keys[39] && this.isGoingRight) {
         this.xVelocity -= this.accelerateFactor;
     }
 
-    if (this.yVelocity > 0 && !this.inputManager.keys[38]) {
-        this.yVelocity -= this.accelerateFactor;
+    if (this.xVelocity > 0 && !this.inputManager.keys[37] && this.isGoingLeft) {
+        this.xVelocity -= this.accelerateFactor;
     }
 };
 
 Spacecraft.prototype.updateDirection = function() {
-    if (this.xVelocity === 0 && this.yVelocity === 0 && this.isMoving()) {
-        // stop the craft
-        this.isGoingLeft = false;
-        this.isGoingRight = false;
-        this.isGoingUp = false;
+    console.log(this.isMovingHorizontally() + ", " + this.xVelocity + ", "
+        + this.isMovingVertically() + ", " + this.yVelocity);
+
+    // stop spacecraft vertically
+    if (this.yVelocity === 0 && this.isMovingVertically()) {
         this.isGoingDown = false;
+        this.isGoingUp = false;
     }
 
+    // stop spacecraft horizontally
+    if (this.xVelocity === 0 && this.isMovingHorizontally()) {
+        this.isGoingLeft = false;
+        this.isGoingRight = false;
+    }
+
+    // start moving up
     if (this.inputManager.keys[38] && this.yVelocity === 0) {
-        // lift off
         this.yVelocity += this.accelerateFactor;
         this.isGoingUp = true;
     }
 
+    // accelerate further up
     if (this.inputManager.keys[38] && this.isGoingUp
                             && this.yVelocity <= this.maxVelocity) {
         this.yVelocity += this.accelerateFactor;
     }
+
+    // breaking when going up
+    if (this.inputManager.keys[40] && this.isGoingUp
+             && this.yVelocity > this.accelerateFactor) {
+        this.yVelocity -= this.accelerateFactor;
+    }
+
+    // start moving down
+    if (this.inputManager.keys[40] && this.yVelocity === 0) {
+        this.yVelocity += this.accelerateFactor;
+        this.isGoingDown = true;
+    }
+
+    // accelerate further down
+    if (this.inputManager.keys[40] && this.isGoingDown
+                            && this.yVelocity <= this.maxVelocity) {
+        this.yVelocity += this.accelerateFactor;
+    }
+
+    // breaking when going down
+    if (this.inputManager.keys[38] && this.isGoingDown
+             && this.yVelocity > this.accelerateFactor) {
+        this.yVelocity -= this.accelerateFactor;
+    }
+
+    // start moving right
+    if (this.inputManager.keys[39] && this.xVelocity === 0) {
+        this.xVelocity += this.accelerateFactor;
+        this.isGoingRight = true;
+    }
+
+    // accelerate further right
+    if (this.inputManager.keys[39] && this.isGoingRight
+             && this.xVelocity <= this.maxVelocity) {
+        this.xVelocity += this.accelerateFactor;
+    }
+
+    // breaking when going right
+    if (this.inputManager.keys[37] && this.isGoingRight
+            && this.xVelocity > this.accelerateFactor) {
+        this.xVelocity -= this.accelerateFactor;
+    }
+
+    // start moving left
+    if (this.inputManager.keys[37] && this.xVelocity === 0) {
+        this.xVelocity += this.accelerateFactor;
+        this.isGoingLeft = true;
+    }
+
+    // accelerate further left
+    if (this.inputManager.keys[37] && this.isGoingLeft
+            && this.xVelocity < this.maxVelocity) {
+        this.xVelocity += this.accelerateFactor;
+    }
+
+    // breaking when going left
+    if (this.inputManager.keys[39] && this.isGoingLeft
+            && this.xVelocity > this.accelerateFactor) {
+        this.xVelocity -= this.accelerateFactor;
+    }
 };
 
-Spacecraft.prototype.isMoving = function() {
-    return this.isGoingDown || this.isGoingLeft || this.isGoingRight || this.isGoingUp;
+Spacecraft.prototype.isMovingHorizontally = function() {
+    return this.isGoingRight || this.isGoingLeft;
+};
+
+Spacecraft.prototype.isMovingVertically = function() {
+    return this.isGoingDown || this.isGoingUp;
 };
