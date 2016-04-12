@@ -11,6 +11,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/inputManager.js"></script>
+    <script src="js/spacecraft.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -22,8 +24,11 @@
                 $("#menu-page").hide();
                 $("#canvas").show();
 
-                var game = new Game($("#canvas"));
-                game.startGame();
+                var canvas = document.getElementById("canvas");
+                var context = canvas.getContext("2d");
+                var game = new Game(canvas, context);
+                game.newGame();
+                game.run();
             });
 
             $("#high-scores-button").click(function() {
@@ -62,7 +67,7 @@
             <h1>About</h1>
             <a class="back-button" href="#">Back</a>
         </div>
-        <canvas id="canvas" width="800" height="600">
+        <canvas id="canvas" width="600" height="700">
             Your web browser does not support a canvas
         </canvas>
     </div>
