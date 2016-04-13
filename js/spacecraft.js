@@ -16,9 +16,16 @@ var Spacecraft = function(inputManager, assetsManager) {
     this.isGoingRight = false;
     this.isGoingUp = false;
     this.isGoingDown = false;
+
+    this.bulletDelayTimer = 0;
+    this.bullets = [];
+    this.isPoweredUp = false;
+    this.bulletCleanUpDelayTimer = 0;
+
+    this.isShieldUp = false;
 };
 
-Spacecraft.prototype.update = function() {
+Spacecraft.prototype.update = function(delta) {
     this.slowDown();
     this.updateDirection();
 
@@ -33,9 +40,44 @@ Spacecraft.prototype.update = function() {
     } else if (this.isGoingLeft) {
         this.xPosition -= (this.xVelocity / 10);
     }
+
+    // fire normal bullet every second, powered up bullet every 0.3 second
+    this.bulletDelayTimer += delta;
+
+    if (!this.isPoweredUp && this.bulletDelayTimer > 1000) {
+        this.fire("blue");
+        this.bulletDelayTimer = 0;
+    } else if (this.isPoweredUp && this.bulletDelayTimer > 300) {
+        this.fire("green");
+        this.bulletDelayTimer = 0;
+    }
+
+    for (var i = 0; i < this.bullets.length; i++) {
+        this.bullets[i].update(delta);
+    }
+
+    // every 10 seconds remove bullets that are off the screen
+    this.bulletCleanUpDelayTimer += delta;
+
+    if (this.bulletCleanUpDelayTimer > 10000) {
+        console.log("Before: " + this.bullets.length);
+        for (var i = 0; i < this.bullets.length; i++) {
+            if (this.bullets[i].yPosition < -50) {
+                this.bullets.splice(i, 1);
+                i--;
+            }
+        }
+
+        console.log("After: " + this.bullets.length);
+        this.bulletCleanUpDelayTimer = 0;
+    }
 };
 
 Spacecraft.prototype.draw = function(ctx) {
+    for (var i = 0; i < this.bullets.length; i++) {
+        this.bullets[i].draw(ctx);
+    }
+
     ctx.drawImage(this.assetsManager.images["spacecraft"], this.xPosition,
             this.yPosition, this.width, this.height);
 };
@@ -59,8 +101,8 @@ Spacecraft.prototype.slowDown = function() {
 };
 
 Spacecraft.prototype.updateDirection = function() {
-    console.log(this.isMovingHorizontally() + ", " + this.xVelocity + ", "
-        + this.isMovingVertically() + ", " + this.yVelocity);
+    //console.log(this.isMovingHorizontally() + ", " + this.xVelocity + ", "
+    //    + this.isMovingVertically() + ", " + this.yVelocity);
 
     // stop spacecraft vertically
     if (this.yVelocity === 0 && this.isMovingVertically()) {
@@ -153,4 +195,13 @@ Spacecraft.prototype.isMovingHorizontally = function() {
 
 Spacecraft.prototype.isMovingVertically = function() {
     return this.isGoingDown || this.isGoingUp;
+};
+
+Spacecraft.prototype.fire = function(color) {
+    if (color === "blue" || color === "green") {
+        this.bullets.push(new Bullet(this.xPosition + (this.width / 2) - (14 / 2) ,
+            this.yPosition, color, this.assetsManager));
+    } else {
+        console.error(color + " is not an appropriate color to fire a bullet!");
+    }
 };

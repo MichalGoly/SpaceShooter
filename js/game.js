@@ -20,9 +20,11 @@ Game.prototype.newGame = function() {
     this.score = 0;
     this.lives = 3;
 
+    this.background = new Background(this.canvas, this.assetsManager);
     this.spacecraft = new Spacecraft(this.inputManager, this.assetsManager);
 };
 
+// https://coderwall.com/p/iygcpa/gameloop-the-correct-way
 Game.prototype.run = function() {
     window.requestAnimationFrame(this.run.bind(this));
 
@@ -38,19 +40,15 @@ Game.prototype.run = function() {
 };
 
 Game.prototype.update = function(delta) {
-    this.spacecraft.update();
+    this.background.update();
+    this.spacecraft.update(delta);
 };
 
 Game.prototype.render = function() {
-    this.context.rect(0, 0, this.canvas.width, this.canvas.height);
-    this.context.fillStyle =
-        this.context.createPattern(this.assetsManager.images["background"], "repeat");
-    this.context.fill();
-    //this.context.fillStyle = "#000";
-    //this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
+    this.background.draw(this.context);
     this.spacecraft.draw(this.context);
 };
+
 
 
 
