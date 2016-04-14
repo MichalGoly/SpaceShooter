@@ -20,6 +20,7 @@ var Meteor = function(xCentre, yCentre, type, assetsManager) {
     this.xPosition = this.xCentre - this.radius;
     this.yPosition = this.yCentre - this.radius;
 
+    // xVelocity is later picked at random
     this.xVelocity = 0;
     this.yVelocity = 10;
 
@@ -28,9 +29,45 @@ var Meteor = function(xCentre, yCentre, type, assetsManager) {
     this.isGoingLeft = false;
     this.isGoingRight = false;
 
-    this.isRotatingClockwise = true;
     this.rotationAngle = 0;
     this.rotationDelayCounter = 0;
+
+    this.initialiseRoute();
+};
+
+Meteor.prototype.initialiseRoute = function() {
+    // get random number between 0 to 4 inclusive
+    var type = Math.floor(Math.random() * 5);
+    //console.log("Meteor route: " + type);
+
+    switch (type) {
+        case 0:
+            this.isRotatingClockwise = false;
+            this.xVelocity = 5;
+            this.isGoingLeft = true;
+            break;
+        case 1:
+            this.isRotatingClockwise = false;
+            this.xVelocity = 8;
+            this.isGoingLeft = true;
+            break;
+        case 2:
+            this.isRotatingClockwise = true;
+            break;
+        case 3:
+            this.isRotatingClockwise = true;
+            this.xVelocity = 5;
+            this.isGoingRight = true;
+            break;
+        case 4:
+            this.isRotatingClockwise = true;
+            this.xVelocity = 8;
+            this.isGoingRight = true;
+            break;
+        default:
+            console.error(type + " is not a valid type of route of a meteor!");
+            break;
+    }
 };
 
 Meteor.prototype.update = function(delta) {
@@ -46,6 +83,7 @@ Meteor.prototype.update = function(delta) {
         this.xPosition -= (this.xVelocity / 10);
     }
 
+    // rotation of the meteor
     this.rotationDelayCounter += delta;
 
     if (this.rotationDelayCounter > 25) {

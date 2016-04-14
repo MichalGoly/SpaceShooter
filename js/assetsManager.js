@@ -2,6 +2,7 @@ var AssetsManager = function() {
     this.images = [];
 };
 
+// assets by Kenney Vleugels (www.kenney.nl)
 AssetsManager.prototype.loadAll = function() {
     this.images["spacecraft"] = new Image();
     this.images["spacecraft"].src = "assets/PNG/playerShip2_blue.png";
