@@ -21,7 +21,11 @@ Game.prototype.newGame = function() {
     this.lives = 3;
 
     this.background = new Background(this.canvas, this.assetsManager);
-    this.spacecraft = new Spacecraft(this.inputManager, this.assetsManager);
+    this.spacecraft = new Spacecraft(this.canvas, this.inputManager, this.assetsManager);
+
+    this.meteor1 = new Meteor(150, 50, "big", this.assetsManager);
+    this.meteor2 = new Meteor(300, 50, "medium", this.assetsManager);
+    this.meteor3 = new Meteor(500, 50, "tiny", this.assetsManager);
 };
 
 // https://coderwall.com/p/iygcpa/gameloop-the-correct-way
@@ -42,11 +46,19 @@ Game.prototype.run = function() {
 Game.prototype.update = function(delta) {
     this.background.update();
     this.spacecraft.update(delta);
+
+    this.meteor1.update(delta);
+    this.meteor2.update(delta);
+    this.meteor3.update(delta);
 };
 
 Game.prototype.render = function() {
     this.background.draw(this.context);
     this.spacecraft.draw(this.context);
+
+    this.meteor1.draw(this.context);
+    this.meteor2.draw(this.context);
+    this.meteor3.draw(this.context);
 };
 
 

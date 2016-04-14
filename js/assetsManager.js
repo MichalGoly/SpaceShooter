@@ -21,4 +21,11 @@ AssetsManager.prototype.loadAll = function() {
     this.images["laserRed1"].src = "assets/PNG/Lasers/laserRed02.png";
     this.images["laserRed2"] = new Image();
     this.images["laserRed2"].src = "assets/PNG/Lasers/laserRed06.png";
+
+    this.images["meteorBig"] = new Image();
+    this.images["meteorBig"].src = "assets/PNG/Meteors/meteorBrown_big4.png";
+    this.images["meteorMedium"] = new Image();
+    this.images["meteorMedium"].src = "assets/PNG/Meteors/meteorGrey_med1.png";
+    this.images["meteorTiny"] = new Image();
+    this.images["meteorTiny"].src = "assets/PNG/Meteors/meteorBrown_tiny1.png";
 };

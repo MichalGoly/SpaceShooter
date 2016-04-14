@@ -1,4 +1,5 @@
-var Spacecraft = function(inputManager, assetsManager) {
+var Spacecraft = function(canvas, inputManager, assetsManager) {
+    this.canvas = canvas;
     this.inputManager = inputManager;
     this.assetsManager = assetsManager;
 
@@ -28,6 +29,9 @@ var Spacecraft = function(inputManager, assetsManager) {
 Spacecraft.prototype.update = function(delta) {
     this.slowDown();
     this.updateDirection();
+
+    // TODO collision with walls! check if yPosition & xPositions off the canvas,
+    // if so drop appropriate velocities to 0 and update isGoingDown etc.
 
     if (this.isGoingUp) {
         this.yPosition -= (this.yVelocity / 10); // avoid using 0.1 accelerateFactor
