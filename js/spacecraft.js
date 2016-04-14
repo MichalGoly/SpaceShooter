@@ -18,6 +18,12 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
     this.isGoingUp = false;
     this.isGoingDown = false;
 
+    // collisions with walls detection
+    this.isLeftWall = false;
+    this.isRightWall = false;
+    this.isUpWall = false;
+    this.isDownWall = false;
+
     this.bulletDelayTimer = 0;
     this.bullets = [];
     this.isPoweredUp = false;
@@ -121,9 +127,10 @@ Spacecraft.prototype.updateDirection = function() {
     }
 
     // start moving up
-    if (this.inputManager.keys[38] && this.yVelocity === 0) {
+    if (this.inputManager.keys[38] && this.yVelocity === 0 && !this.isUpWall) {
         this.yVelocity += this.accelerateFactor;
         this.isGoingUp = true;
+        this.isDownWall = false;
     }
 
     // accelerate further up
@@ -139,9 +146,10 @@ Spacecraft.prototype.updateDirection = function() {
     }
 
     // start moving down
-    if (this.inputManager.keys[40] && this.yVelocity === 0) {
+    if (this.inputManager.keys[40] && this.yVelocity === 0 && !this.isDownWall) {
         this.yVelocity += this.accelerateFactor;
         this.isGoingDown = true;
+        this.isUpWall = false;
     }
 
     // accelerate further down
@@ -157,9 +165,10 @@ Spacecraft.prototype.updateDirection = function() {
     }
 
     // start moving right
-    if (this.inputManager.keys[39] && this.xVelocity === 0) {
+    if (this.inputManager.keys[39] && this.xVelocity === 0 && !this.isRightWall) {
         this.xVelocity += this.accelerateFactor;
         this.isGoingRight = true;
+        this.isLeftWall = false;
     }
 
     // accelerate further right
@@ -175,9 +184,10 @@ Spacecraft.prototype.updateDirection = function() {
     }
 
     // start moving left
-    if (this.inputManager.keys[37] && this.xVelocity === 0) {
+    if (this.inputManager.keys[37] && this.xVelocity === 0 && !this.isLeftWall) {
         this.xVelocity += this.accelerateFactor;
         this.isGoingLeft = true;
+        this.isRightWall = false;
     }
 
     // accelerate further left
