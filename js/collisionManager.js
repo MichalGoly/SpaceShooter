@@ -58,6 +58,9 @@ CollisionManager.prototype.checkMeteorsWithMeteors = function () {
             //console.log("ay:" + this.meteors[i].yVelocity);
             //console.log("bx:" + this.meteors[i + 1].xVelocity);
             //console.log("by:" + this.meteors[i + 1].yVelocity);
+
+            this.meteors[i].updateRotation(this.meteors[i + 1].xCentre);
+            this.meteors[i + 1].updateDirection(this.meteors[i].xCentre);
         }
     }
 };

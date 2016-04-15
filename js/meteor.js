@@ -137,3 +137,8 @@ Meteor.prototype.drawRotatedImage = function(ctx, image, xPosition, yPosition, a
     ctx.drawImage(image, -(image.width / 2), -(image.height / 2));
     ctx.restore();
 };
+
+// xCentre of the object to collide with
+Meteor.prototype.updateRotation = function(xCentre) {
+    this.isRotatingClockwise = this.xCentre - xCentre > 0;
+};
