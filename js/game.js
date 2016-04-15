@@ -18,7 +18,6 @@ var Game = function(canvas, context) {
 
 Game.prototype.newGame = function() {
     this.score = 0;
-    this.lives = 3;
 
     this.background = new Background(this.canvas, this.assetsManager);
     this.spacecraft = new Spacecraft(this.canvas, this.inputManager, this.assetsManager);

@@ -24,11 +24,6 @@ var Meteor = function(xCentre, yCentre, type, assetsManager) {
     this.xVelocity = 0;
     this.yVelocity = 10;
 
-    //this.isGoingUp = false;
-    //this.isGoingDown = true;
-    //this.isGoingLeft = false;
-    //this.isGoingRight = false;
-
     //// TODO remove this
     //if (this.type === "medium") {
     //    this.isGoingDown = false;

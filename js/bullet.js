@@ -10,7 +10,7 @@ Bullet.prototype.update = function(delta) {
     if (this.color === "blue" || this.color === "green") {
         this.yPosition -= (this.speed / 10);
     } else {
-        this.yPosition -= (this.speed / 10);
+        this.yPosition += (this.speed / 10);
     }
 };
 
