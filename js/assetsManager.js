@@ -7,6 +7,20 @@ AssetsManager.prototype.loadAll = function() {
     this.images["spacecraft"] = new Image();
     this.images["spacecraft"].src = "assets/PNG/playerShip2_blue.png";
 
+    this.images["spacecraftSmallDamage"] = new Image();
+    this.images["spacecraftSmallDamage"].src = "assets/PNG/Damage/playerShip2_damage1.png";
+    this.images["spacecraftMediumDamage"] = new Image();
+    this.images["spacecraftMediumDamage"].src = "assets/PNG/Damage/playerShip2_damage2.png";
+    this.images["spacecraftBigDamage"] = new Image();
+    this.images["spacecraftBigDamage"].src = "assets/PNG/Damage/playerShip2_damage3.png";
+
+    this.images["shield1"] = new Image();
+    this.images["shield1"].src = "assets/PNG/Effects/shield1.png";
+    this.images["shield2"] = new Image();
+    this.images["shield2"].src = "assets/PNG/Effects/shield2.png";
+    this.images["shield3"] = new Image();
+    this.images["shield3"].src = "assets/PNG/Effects/shield3.png";
+
     this.images["background"] = new Image();
     this.images["background"].src = "assets/Backgrounds/blueBig.png";
 

@@ -11,7 +11,7 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.maxVelocity = 100;
-    this.accelerateFactor = 2; //TODO not hard coded
+    this.accelerateFactor = 2;
 
     // collisions with walls detection
     this.isLeftWall = false;
@@ -24,7 +24,12 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
     this.isPoweredUp = false;
     this.bulletCleanUpDelayTimer = 0;
 
+    this.isShieldAnimating = false;
     this.isShieldUp = false;
+    this.shieldDuriation = 5000;
+    this.shieldDelayTimer = 0;
+    this.shieldIndex = 0;
+
     this.livesRemaining = 3;
 };
 
@@ -65,6 +70,43 @@ Spacecraft.prototype.update = function(delta) {
         //console.log("After: " + this.bullets.length);
         this.bulletCleanUpDelayTimer = 0;
     }
+
+    // shield stuff
+    if (this.isShieldAnimating && !this.isShieldUp) {
+        this.shieldDelayTimer += delta;
+
+        if (this.shieldDelayTimer > 500) {
+            if (this.shieldIndex < 3) {
+                this.shieldIndex++;
+            } else {
+                this.isShieldUp = true;
+                this.isShieldAnimating = false;
+            }
+
+            this.shieldDelayTimer = 0;
+        }
+    } else if (this.isShieldAnimating && this.isShieldUp) {
+        // shield down
+        this.shieldDelayTimer += delta;
+
+        if (this.shieldDelayTimer > 500) {
+            if (this.shieldIndex > 0) {
+                this.shieldIndex--;
+            } else {
+                this.shieldUp = false;
+                this.isShieldAnimating = false;
+            }
+        }
+    } else if (this.isShieldUp) {
+        // count time
+        this.shieldDelayTimer += delta;
+
+        if (this.shieldDelayTimer > this.shieldDuriation) {
+            // put the shield down
+            this.isShieldAnimating = true;
+            this.shieldDelayTimer = 0;
+        }
+    }
 };
 
 Spacecraft.prototype.draw = function(ctx) {
@@ -74,6 +116,24 @@ Spacecraft.prototype.draw = function(ctx) {
 
     ctx.drawImage(this.assetsManager.images["spacecraft"], this.xPosition,
             this.yPosition, this.width, this.height);
+
+    // draw the spacecraft's damage
+    if (this.livesRemaining == 2) {
+        ctx.drawImage(this.assetsManager.images["spacecraftSmallDamage"], this.xPosition,
+            this.yPosition, this.width, this.height);
+    } else if (this.livesRemaining == 1) {
+        ctx.drawImage(this.assetsManager.images["spacecraftMediumDamage"], this.xPosition,
+            this.yPosition, this.width, this.height);
+    } else if (this.livesRemaining == 0){
+        ctx.drawImage(this.assetsManager.images["spacecraftBigDamage"], this.xPosition,
+            this.yPosition, this.width, this.height);
+    }
+
+    // draw the shield
+    if (this.shieldIndex > 0) {
+        ctx.drawImage(this.assetsManager.images["shield" + this.shieldIndex], this.xPosition,
+            this.yPosition, this.width, this.height);
+    }
 };
 
 Spacecraft.prototype.slowDown = function() {
@@ -154,4 +214,8 @@ Spacecraft.prototype.fire = function(color) {
     } else {
         console.error(color + " is not an appropriate color to fire a bullet!");
     }
+};
+
+Spacecraft.prototype.shieldUp = function() {
+    this.isShieldAnimating = true;
 };
