@@ -24,10 +24,17 @@ var Meteor = function(xCentre, yCentre, type, assetsManager) {
     this.xVelocity = 0;
     this.yVelocity = 10;
 
-    this.isGoingUp = false;
-    this.isGoingDown = true;
-    this.isGoingLeft = false;
-    this.isGoingRight = false;
+    //this.isGoingUp = false;
+    //this.isGoingDown = true;
+    //this.isGoingLeft = false;
+    //this.isGoingRight = false;
+
+    //// TODO remove this
+    //if (this.type === "medium") {
+    //    this.isGoingDown = false;
+    //    this.isGoingUp = true;
+    //    this.yVelocity = this.yVelocity * (-1);
+    //}
 
     this.rotationAngle = 0;
     this.rotationDelayCounter = 0;
@@ -38,18 +45,17 @@ var Meteor = function(xCentre, yCentre, type, assetsManager) {
 Meteor.prototype.initialiseRoute = function() {
     // get random number between 0 to 4 inclusive
     var type = Math.floor(Math.random() * 5);
+    //var type = 2;
     //console.log("Meteor route: " + type);
 
     switch (type) {
         case 0:
             this.isRotatingClockwise = false;
-            this.xVelocity = 5;
-            this.isGoingLeft = true;
+            this.xVelocity = -5;
             break;
         case 1:
             this.isRotatingClockwise = false;
-            this.xVelocity = 8;
-            this.isGoingLeft = true;
+            this.xVelocity = -8;
             break;
         case 2:
             this.isRotatingClockwise = true;
@@ -57,12 +63,10 @@ Meteor.prototype.initialiseRoute = function() {
         case 3:
             this.isRotatingClockwise = true;
             this.xVelocity = 5;
-            this.isGoingRight = true;
             break;
         case 4:
             this.isRotatingClockwise = true;
             this.xVelocity = 8;
-            this.isGoingRight = true;
             break;
         default:
             console.error(type + " is not a valid type of route of a meteor!");
@@ -71,17 +75,11 @@ Meteor.prototype.initialiseRoute = function() {
 };
 
 Meteor.prototype.update = function(delta) {
-    if (this.isGoingUp) {
-        this.yPosition -= (this.yVelocity / 10); // avoid using 0.1 accelerateFactor
-    } else if (this.isGoingDown) {
-        this.yPosition += (this.yVelocity / 10);
-    }
+    this.yPosition += (this.yVelocity / 10);
+    this.xPosition += (this.xVelocity / 10);
 
-    if (this.isGoingRight) {
-        this.xPosition += (this.xVelocity / 10);
-    } else if (this.isGoingLeft) {
-        this.xPosition -= (this.xVelocity / 10);
-    }
+    this.xCentre = this.xPosition + this.radius;
+    this.yCentre = this.yPosition + this.radius;
 
     // rotation of the meteor
     this.rotationDelayCounter += delta;
@@ -96,17 +94,38 @@ Meteor.prototype.update = function(delta) {
     }
 };
 
+Meteor.prototype.isGoingDown = function() {
+    return this.yVelocity > 0;
+};
+
+Meteor.prototype.isGoingUp = function() {
+    return this.yVelocity < 0;
+};
+
+Meteor.prototype.isGoingRight = function() {
+    return this.xVelocity > 0;
+};
+
+Meteor.prototype.isGoingLeft = function() {
+    return this.xVelocity < 0;
+};
+
 Meteor.prototype.draw = function(ctx) {
     if (this.type === "big") {
         this.drawRotatedImage(ctx, this.assetsManager.images["meteorBig"],
-            this.xPosition, this.yPosition, this.rotationAngle);
+            this.xCentre, this.yCentre, this.rotationAngle);
     } else if (this.type === "medium") {
         this.drawRotatedImage(ctx, this.assetsManager.images["meteorMedium"],
-            this.xPosition, this.yPosition, this.rotationAngle);
+            this.xCentre, this.yCentre, this.rotationAngle);
     } else {
         this.drawRotatedImage(ctx, this.assetsManager.images["meteorTiny"],
-            this.xPosition, this.yPosition, this.rotationAngle);
+            this.xCentre, this.yCentre, this.rotationAngle);
     }
+
+    //ctx.fillStyle = "#fff";
+    //ctx.beginPath();
+    //ctx.arc(this.xCentre, this.yCentre, this.radius, 0, 2 * Math.PI);
+    //ctx.stroke();
 };
 
 // Inspired by the example here by Seb Lee-Delisle

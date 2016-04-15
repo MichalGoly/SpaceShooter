@@ -23,9 +23,10 @@ Game.prototype.newGame = function() {
     this.background = new Background(this.canvas, this.assetsManager);
     this.spacecraft = new Spacecraft(this.canvas, this.inputManager, this.assetsManager);
     this.meteors = [];
-    this.meteors.push(new Meteor(150, 50, "big", this.assetsManager));
-    this.meteors.push(new Meteor(300, 50, "medium", this.assetsManager));
+    this.meteors.push(new Meteor(100, 50, "big", this.assetsManager));
+    this.meteors.push(new Meteor(190, 50, "medium", this.assetsManager));
     this.meteors.push(new Meteor(500, 50, "tiny", this.assetsManager));
+    this.meteors.push(new Meteor(300, 300, "medium", this.assetsManager));
 
     this.collisionManager = new CollisionManager(this);
 };
@@ -39,7 +40,7 @@ Game.prototype.run = function() {
 
     if (this.delta > this.interval) {
         this.update(this.delta);
-        this.collisionManager.checkAndResolve();
+        this.collisionManager.checkAndResolve(this.delta);
         this.render();
 
         this.lastTime = this.currentTime - (this.delta % this.interval);
