@@ -219,3 +219,7 @@ Enemy.prototype.doBlackBehaviour = function() {
 Enemy.prototype.explode = function() {
     this.isExploding = true;
 };
+
+Enemy.prototype.isOnFire = function() {
+    return this.isExploded || this.isExploding;
+};

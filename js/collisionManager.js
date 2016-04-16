@@ -3,6 +3,7 @@ var CollisionManager = function(game) {
     this.spacecraft = game.spacecraft;
     this.meteors = game.meteors;
     this.powerUps = game.powerUps;
+    this.enemies = game.enemies;
 
     this.collisionDelayTimer = 0;
 };
@@ -159,27 +160,38 @@ CollisionManager.prototype.checkSpacecraftWithMeteors = function() {
 };
 
 CollisionManager.prototype.checkSpacecraftBulletsWithMeteorsEnemies = function() {
-    // check bullets/meteors
     for (var i = 0; i < this.spacecraft.bullets.length; i++) {
         // ignore bullets that have already hit a target
         if (this.spacecraft.bullets[i].isOnFire()) {
             continue;
         }
 
+        // check bullets/meteors
         for (var j = 0; j < this.meteors.length; j++) {
             if (this.meteors[j].isOnFire()) {
                 continue;
             }
 
             if (this.circleRectCollision(this.meteors[j], this.spacecraft.bullets[i])) {
-                console.log("Bullet - Meteor Collision");
+                //console.log("Bullet - Meteor Collision");
                 this.meteors[j].explode();
                 this.spacecraft.bullets[i].explode();
             }
         }
-    }
 
-    // TODO check bullets/enemies
+        // check bullets/enemies
+        for (var k = 0; k < this.enemies.length; k++) {
+            if (this.enemies[k].isOnFire()) {
+                continue;
+            }
+
+            if (this.rectRectCollision(this.enemies[k], this.spacecraft.bullets[i])) {
+                //console.log("Bullet - Enemy collision");
+                this.enemies[k].explode();
+                this.spacecraft.bullets[i].explode();
+            }
+        }
+    }
 };
 
 CollisionManager.prototype.resolveElasticCollision = function(body1, body2) {
@@ -200,26 +212,3 @@ CollisionManager.prototype.resolveElasticCollision = function(body1, body2) {
     body2.yVelocity = Math.floor((body2.yVelocity * (body2.mass - body1.mass)
         + 2 * body1.mass * tempVelY) / totalMass);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
