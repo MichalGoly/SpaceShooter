@@ -104,8 +104,24 @@ CollisionManager.prototype.checkSpacecraftWithPowerUps = function() {
         // rectangle-rectangle collision
         if (this.rectRectCollision(this.spacecraft, this.powerUps[i])) {
             if (this.circleRectCollision(this.spacecraft, this.powerUps[i])) {
-                console.log("SPACECRAFT-POWERUP COLLISION");
+                //console.log("SPACECRAFT-POWERUP COLLISION");
+                if (this.powerUps[i].type === "boltPower") {
+                    this.spacecraft.boltPowerUp();
+                } else if (this.powerUps[i].type === "shieldPower") {
+                    this.spacecraft.shieldUp();
+                } else {
+                    console.error(this.powerUps[i].type + " is not a proper powerUp");
+                }
+                this.powerUps[i].isPickedUp = true;
             }
+        }
+    }
+
+    // clean up picked up power ups
+    for (var i = 0; i < this.powerUps.length; i++) {
+        if (this.powerUps[i].isPickedUp) {
+            this.powerUps.splice(i, 1);
+            i--;
         }
     }
 };

@@ -26,12 +26,14 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
 
     this.bulletDelayTimer = 0;
     this.bullets = [];
-    this.isPoweredUp = false;
+    this.isBoltPower = false;
+    this.boltDuration = 15000;
+    this.boltTimer = 0;
     this.bulletCleanUpDelayTimer = 0;
 
     this.isShieldAnimating = false;
     this.isShieldUp = false;
-    this.shieldDuriation = 10000;
+    this.shieldDuriation = 15000;
     this.shieldDelayTimer = 0;
     this.shieldIndex = 0;
 
@@ -52,10 +54,10 @@ Spacecraft.prototype.update = function(delta) {
     // fire normal bullet every second, powered up bullet every 0.3 second
     this.bulletDelayTimer += delta;
 
-    if (!this.isPoweredUp && this.bulletDelayTimer > 1000) {
+    if (!this.isBoltPower && this.bulletDelayTimer > 1000) {
         this.fire("blue");
         this.bulletDelayTimer = 0;
-    } else if (this.isPoweredUp && this.bulletDelayTimer > 300) {
+    } else if (this.isBoltPower && this.bulletDelayTimer > 300) {
         this.fire("green");
         this.bulletDelayTimer = 0;
     }
@@ -81,6 +83,7 @@ Spacecraft.prototype.update = function(delta) {
     }
 
     this.updateShield(delta);
+    this.updateBolt(delta);
 };
 
 Spacecraft.prototype.draw = function(ctx) {
@@ -110,13 +113,13 @@ Spacecraft.prototype.draw = function(ctx) {
     }
 
     // collision outline for debugging
-    ctx.fillStyle = "#fff";
-    ctx.beginPath();
-    ctx.arc(this.xCentre, this.yCentre, this.radius, 0, 2 * Math.PI);
-    ctx.stroke();
-
-    ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
-    ctx.stroke();
+    //ctx.fillStyle = "#fff";
+    //ctx.beginPath();
+    //ctx.arc(this.xCentre, this.yCentre, this.radius, 0, 2 * Math.PI);
+    //ctx.stroke();
+    //
+    //ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
+    //ctx.stroke();
 
 };
 
@@ -234,6 +237,18 @@ Spacecraft.prototype.updateShield = function(delta) {
     }
 };
 
+Spacecraft.prototype.updateBolt = function(delta) {
+    if (this.isBoltPower) {
+        this.boltTimer += delta;
+        //console.log("boltTimer: " + this.boltTimer);
+        if (this.boltTimer > this.boltDuration) {
+            // switch back to blue bullets
+            this.isBoltPower = false;
+            this.boltTimer = 0;
+        }
+    }
+};
+
 Spacecraft.prototype.fire = function(color) {
     if (color === "blue" || color === "green") {
         this.bullets.push(new Bullet(this.xPosition + (this.width / 2) - (14 / 2) ,
@@ -245,6 +260,14 @@ Spacecraft.prototype.fire = function(color) {
 
 Spacecraft.prototype.shieldUp = function() {
     this.isShieldAnimating = true;
+};
+
+Spacecraft.prototype.boltPowerUp = function() {
+    if (this.isBoltPower) {
+        this.boltTimer = 0;
+    } else {
+        this.isBoltPower = true;
+    }
 };
 
 

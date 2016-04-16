@@ -5,6 +5,7 @@ var PowerUp = function(xPosition, yPosition, type, assetsManager) {
     this.assetsManager = assetsManager;
     this.width = 34;
     this.height = 33;
+    this.isPickedUp = false;
 };
 
 PowerUp.prototype.update = function() {

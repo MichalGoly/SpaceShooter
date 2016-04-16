@@ -29,6 +29,9 @@ Game.prototype.newGame = function() {
 
     this.powerUps = [];
     this.powerUps.push(new PowerUp(400, 400, "boltPower", this.assetsManager));
+    this.powerUps.push(new PowerUp(200, 200, "shieldPower", this.assetsManager));
+    this.powerUps.push(new PowerUp(100, 300, "boltPower", this.assetsManager));
+
 
     this.collisionManager = new CollisionManager(this);
 };
