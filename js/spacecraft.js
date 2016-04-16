@@ -13,6 +13,11 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
     this.maxVelocity = 100;
     this.accelerateFactor = 2;
 
+    // circular collision detection variables
+    this.radius = this.width / 2;
+    this.xCentre = this.xPosition + this.radius;
+    this.yCentre = this.yPosition + this.radius;
+
     // collisions with walls detection
     this.isLeftWall = false;
     this.isRightWall = false;
@@ -39,6 +44,10 @@ Spacecraft.prototype.update = function(delta) {
 
     this.yPosition += (this.yVelocity / 10);
     this.xPosition += (this.xVelocity / 10);
+
+    this.radius = this.width / 2;
+    this.xCentre = this.xPosition + this.radius;
+    this.yCentre = this.yPosition + this.radius;
 
     // fire normal bullet every second, powered up bullet every 0.3 second
     this.bulletDelayTimer += delta;
@@ -99,6 +108,16 @@ Spacecraft.prototype.draw = function(ctx) {
         ctx.drawImage(this.assetsManager.images["shield" + this.shieldIndex], this.xPosition,
             this.yPosition, this.width, this.height);
     }
+
+    // collision outline for debugging
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(this.xCentre, this.yCentre, this.radius, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
+    ctx.stroke();
+
 };
 
 Spacecraft.prototype.slowDown = function() {
