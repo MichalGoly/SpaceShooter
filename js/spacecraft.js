@@ -70,9 +70,9 @@ Spacecraft.prototype.update = function(delta) {
     this.bulletCleanUpDelayTimer += delta;
 
     if (this.bulletCleanUpDelayTimer > 10000) {
-        console.log("Before: " + this.bullets.length);
+        //console.log("Before: " + this.bullets.length);
         for (var i = 0; i < this.bullets.length; i++) {
-            if (this.bullets[i].yPosition < -50) {
+            if (this.bullets[i].yPosition < -50 || this.bullets[i].isExploded) {
                 this.bullets.splice(i, 1);
                 i--;
             }

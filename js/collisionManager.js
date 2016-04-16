@@ -13,6 +13,7 @@ CollisionManager.prototype.checkAndResolve = function(delta) {
     if (this.collisionDelayTimer > 10) {
         this.checkMeteorsWithMeteors();
         this.checkSpacecraftWithMeteors();
+        this.checkSpacecraftBulletsWithMeteorsEnemies();
         this.collisionDelayTimer = 0;
     }
 
@@ -155,6 +156,30 @@ CollisionManager.prototype.checkSpacecraftWithMeteors = function() {
             }
         }
     }
+};
+
+CollisionManager.prototype.checkSpacecraftBulletsWithMeteorsEnemies = function() {
+    // check bullets/meteors
+    for (var i = 0; i < this.spacecraft.bullets.length; i++) {
+        // ignore bullets that have already hit a target
+        if (this.spacecraft.bullets[i].isOnFire()) {
+            continue;
+        }
+
+        for (var j = 0; j < this.meteors.length; j++) {
+            if (this.meteors[j].isOnFire()) {
+                continue;
+            }
+
+            if (this.circleRectCollision(this.meteors[j], this.spacecraft.bullets[i])) {
+                console.log("Bullet - Meteor Collision");
+                this.meteors[j].explode();
+                this.spacecraft.bullets[i].explode();
+            }
+        }
+    }
+
+    // TODO check bullets/enemies
 };
 
 CollisionManager.prototype.resolveElasticCollision = function(body1, body2) {

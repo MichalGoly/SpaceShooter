@@ -55,4 +55,19 @@ AssetsManager.prototype.loadAll = function() {
         this.images["explosion" + i] = new Image();
         this.images["explosion" + i].src = "assets/PNG/Effects/explosion" + i + ".png";
     }
+
+    this.images["laserBlueExplosion1"] = new Image();
+    this.images["laserBlueExplosion1"].src = "assets/PNG/Lasers/laserBlue09.png";
+    this.images["laserBlueExplosion2"] = new Image();
+    this.images["laserBlueExplosion2"].src = "assets/PNG/Lasers/laserBlue08.png";
+
+    this.images["laserGreenExplosion1"] = new Image();
+    this.images["laserGreenExplosion1"].src = "assets/PNG/Lasers/laserGreen15.png";
+    this.images["laserGreenExplosion2"] = new Image();
+    this.images["laserGreenExplosion2"].src = "assets/PNG/Lasers/laserGreen14.png";
+
+    this.images["laserRedExplosion1"] = new Image();
+    this.images["laserRedExplosion1"].src = "assets/PNG/Lasers/laserRed09.png";
+    this.images["laserRedExplosion2"] = new Image();
+    this.images["laserRedExplosion2"].src = "assets/PNG/Lasers/laserRed08.png";
 };
