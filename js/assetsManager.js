@@ -49,4 +49,10 @@ AssetsManager.prototype.loadAll = function() {
     this.images["shieldPower"].src = "assets/PNG/Power-ups/powerupYellow_shield.png";
     this.images["boltPower"] = new Image();
     this.images["boltPower"].src = "assets/PNG/Power-ups/powerupGreen_bolt.png";
+
+    // explosions by Ville Seppanen, http://villeseppanen.com
+    for (var i = 0; i < 21; i++) {
+        this.images["explosion" + i] = new Image();
+        this.images["explosion" + i].src = "assets/PNG/Effects/explosion" + i + ".png";
+    }
 };

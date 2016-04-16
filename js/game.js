@@ -59,6 +59,8 @@ Game.prototype.update = function(delta) {
     for (var i = 0; i < this.meteors.length; i++) {
         this.meteors[i].update(delta);
     }
+
+    // TODO clean up meteors off the screen and meteors blowed up
 };
 
 Game.prototype.render = function() {

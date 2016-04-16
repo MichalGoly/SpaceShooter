@@ -6,13 +6,13 @@ var Meteor = function(xCentre, yCentre, type, assetsManager) {
 
     if (this.type === "big") {
         this.radius = 48;
-        this.mass = 500;
+        this.mass = 1000;
     } else if (this.type === "medium") {
         this.radius = 21;
-        this.mass = 250;
+        this.mass = 500;
     } else if (this.type === "tiny") {
         this.radius = 9;
-        this.mass = 50;
+        this.mass = 100;
     } else {
         console.error(this.type + " is not a valid type of a meteor!");
     }
@@ -24,17 +24,15 @@ var Meteor = function(xCentre, yCentre, type, assetsManager) {
     this.xVelocity = 0;
     this.yVelocity = 10;
 
-    //// TODO remove this
-    //if (this.type === "medium") {
-    //    this.isGoingDown = false;
-    //    this.isGoingUp = true;
-    //    this.yVelocity = this.yVelocity * (-1);
-    //}
-
     this.rotationAngle = 0;
     this.rotationDelayCounter = 0;
 
     this.initialiseRoute();
+
+    this.isExploding = false;
+    this.explosionTimer = 0;
+    this.isExploded = false;
+    this.explosionIndex = 0;
 };
 
 Meteor.prototype.initialiseRoute = function() {
@@ -70,6 +68,10 @@ Meteor.prototype.initialiseRoute = function() {
 };
 
 Meteor.prototype.update = function(delta) {
+    if (this.isExploded) {
+        return;
+    }
+
     this.yPosition += (this.yVelocity / 10);
     this.xPosition += (this.xVelocity / 10);
 
@@ -86,6 +88,21 @@ Meteor.prototype.update = function(delta) {
             this.rotationAngle -= 1;
         }
         this.rotationDelayCounter = 0;
+    }
+
+    if (this.isExploding) {
+        this.explosionTimer += delta;
+
+        if (this.explosionTimer > 50) {
+            this.explosionIndex++;
+            this.explosionTimer = 0;
+        }
+
+        if (this.explosionIndex > 20) {
+            // end meteor's life :(
+            this.isExploded = true;
+            this.isExploding = false;
+        }
     }
 };
 
@@ -106,21 +123,28 @@ Meteor.prototype.isGoingLeft = function() {
 };
 
 Meteor.prototype.draw = function(ctx) {
-    if (this.type === "big") {
-        this.drawRotatedImage(ctx, this.assetsManager.images["meteorBig"],
-            this.xCentre, this.yCentre, this.rotationAngle);
-    } else if (this.type === "medium") {
-        this.drawRotatedImage(ctx, this.assetsManager.images["meteorMedium"],
-            this.xCentre, this.yCentre, this.rotationAngle);
-    } else {
-        this.drawRotatedImage(ctx, this.assetsManager.images["meteorTiny"],
-            this.xCentre, this.yCentre, this.rotationAngle);
-    }
+    if (!this.isExploded && !this.isExploding) {
+        if (this.type === "big") {
+            this.drawRotatedImage(ctx, this.assetsManager.images["meteorBig"],
+                this.xCentre, this.yCentre, this.rotationAngle);
+        } else if (this.type === "medium") {
+            this.drawRotatedImage(ctx, this.assetsManager.images["meteorMedium"],
+                this.xCentre, this.yCentre, this.rotationAngle);
+        } else {
+            this.drawRotatedImage(ctx, this.assetsManager.images["meteorTiny"],
+                this.xCentre, this.yCentre, this.rotationAngle);
+        }
 
-    //ctx.fillStyle = "#fff";
-    //ctx.beginPath();
-    //ctx.arc(this.xCentre, this.yCentre, this.radius, 0, 2 * Math.PI);
-    //ctx.stroke();
+        // DEBUG
+        //ctx.fillStyle = "#fff";
+        //ctx.beginPath();
+        //ctx.arc(this.xCentre, this.yCentre, this.radius, 0, 2 * Math.PI);
+        //ctx.stroke();
+    } else if (this.isExploding) {
+        ctx.drawImage(this.assetsManager.images["explosion" + this.explosionIndex],
+            this.xCentre - this.radius, this.yCentre - this.radius, this.radius * 2,
+            this.radius * 2);
+    }
 };
 
 // Inspired by the example here by Seb Lee-Delisle
@@ -136,4 +160,12 @@ Meteor.prototype.drawRotatedImage = function(ctx, image, xPosition, yPosition, a
 // xCentre of the object to collide with
 Meteor.prototype.updateRotation = function(xCentre) {
     this.isRotatingClockwise = this.xCentre - xCentre > 0;
+};
+
+Meteor.prototype.explode = function() {
+    this.isExploding = true;
+};
+
+Meteor.prototype.isOnFire = function() {
+    return this.isExploded || this.isExploding;
 };

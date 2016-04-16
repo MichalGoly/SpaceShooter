@@ -26,11 +26,15 @@ CollisionManager.prototype.checkMeteorsWithMeteors = function() {
     }
 
     for (var i = 0; i < this.meteors.length - 1; i++) {
-        if (this.circleCircleCollision(this.meteors[i], this.meteors[i + 1])) {
-            //console.log("COLLISION METEORS");
-            this.resolveElasticCollision(this.meteors[i], this.meteors[i + 1]);
-            this.meteors[i].updateRotation(this.meteors[i + 1].xCentre);
-            this.meteors[i + 1].updateRotation(this.meteors[i].xCentre);
+        for (var j = i + 1; j < this.meteors.length; j++) {
+            if (!this.meteors[i].isOnFire() && !this.meteors[j].isOnFire()) {
+                if (this.circleCircleCollision(this.meteors[i], this.meteors[j])) {
+                    //console.log("meteor collison");
+                    this.resolveElasticCollision(this.meteors[i], this.meteors[j]);
+                    this.meteors[i].updateRotation(this.meteors[j].xCentre);
+                    this.meteors[j].updateRotation(this.meteors[i].xCentre);
+                }
+            }
         }
     }
 };
@@ -137,7 +141,19 @@ CollisionManager.prototype.circleRectCollision = function(circle, rect) {
 
 CollisionManager.prototype.checkSpacecraftWithMeteors = function() {
     for (var i = 0; i < this.meteors.length; i++) {
-        
+        if (this.circleCircleCollision(this.spacecraft, this.meteors[i])) {
+            if (!this.meteors[i].isOnFire()
+                && this.circleRectCollision(this.meteors[i], this.spacecraft)) {
+
+                this.resolveElasticCollision(this.spacecraft, this.meteors[i]);
+                // blow the meteor up
+                this.meteors[i].explode();
+
+                if (!this.spacecraft.isShieldUp) {
+                    this.spacecraft.livesRemaining--;
+                }
+            }
+        }
     }
 };
 
@@ -146,18 +162,18 @@ CollisionManager.prototype.resolveElasticCollision = function(body1, body2) {
     var tempVelY = body1.yVelocity;
     var totalMass = body1.mass + body2.mass;
 
-    // velocity after elastic collision
-    body1.xVelocity = (body1.xVelocity * (body1.mass - body2.mass)
-        + 2 * body2.mass * body2.xVelocity) / totalMass;
+    // velocity after elastic collision, floor used to simplify the implementation
+    body1.xVelocity = Math.floor((body1.xVelocity * (body1.mass - body2.mass)
+        + 2 * body2.mass * body2.xVelocity) / totalMass);
 
-    body1.yVelocity = (body1.yVelocity * (body1.mass - body2.mass)
-        + 2 * body2.mass * body2.yVelocity) / totalMass;
+    body1.yVelocity = Math.floor((body1.yVelocity * (body1.mass - body2.mass)
+        + 2 * body2.mass * body2.yVelocity) / totalMass);
 
-    body2.xVelocity = (body2.xVelocity * (body2.mass - body1.mass)
-        + 2 * body1.mass * tempVelX) / totalMass;
+    body2.xVelocity = Math.floor((body2.xVelocity * (body2.mass - body1.mass)
+        + 2 * body1.mass * tempVelX) / totalMass);
 
-    body2.yVelocity = (body2.yVelocity * (body2.mass - body1.mass)
-        + 2 * body1.mass * tempVelY) / totalMass;
+    body2.yVelocity = Math.floor((body2.yVelocity * (body2.mass - body1.mass)
+        + 2 * body1.mass * tempVelY) / totalMass);
 };
 
 

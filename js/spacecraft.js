@@ -7,7 +7,7 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
     this.height = 60;
     this.xPosition = 300 - (this.width / 2);
     this.yPosition = 600;
-    this.mass = 500;
+    this.mass = 100;
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.maxVelocity = 100;
@@ -124,6 +124,15 @@ Spacecraft.prototype.draw = function(ctx) {
 };
 
 Spacecraft.prototype.slowDown = function() {
+    // prevents the bug where spacecraft would not stop after a collision
+    if (this.xVelocity > -2 && this.xVelocity < 2) {
+        this.xVelocity = 0;
+    }
+
+    if (this.yVelocity > -2 && this.yVelocity < 2) {
+        this.yVelocity = 0;
+    }
+
     // slow down when going up
     if (this.yVelocity < 0 && !this.inputManager.keys[38]) {
         this.yVelocity += this.accelerateFactor;
