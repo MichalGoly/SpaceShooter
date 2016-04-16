@@ -30,8 +30,9 @@ Game.prototype.newGame = function() {
     this.powerUps = [];
     this.powerUps.push(new PowerUp(400, 400, "boltPower", this.assetsManager));
     this.powerUps.push(new PowerUp(200, 200, "shieldPower", this.assetsManager));
-    this.powerUps.push(new PowerUp(100, 300, "boltPower", this.assetsManager));
 
+    this.enemies = [];
+    this.enemies.push(new Enemy(300, 30, "enemyBlue", this.assetsManager, this.spacecraft));
 
     this.collisionManager = new CollisionManager(this);
 };
@@ -73,6 +74,10 @@ Game.prototype.render = function() {
 
     for (var i = 0; i < this.powerUps.length; i++) {
         this.powerUps[i].draw(this.context);
+    }
+
+    for (var i = 0; i < this.enemies.length; i++) {
+        this.enemies[i].draw(this.context);
     }
 };
 

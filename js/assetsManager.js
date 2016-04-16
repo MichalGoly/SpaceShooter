@@ -70,4 +70,14 @@ AssetsManager.prototype.loadAll = function() {
     this.images["laserRedExplosion1"].src = "assets/PNG/Lasers/laserRed09.png";
     this.images["laserRedExplosion2"] = new Image();
     this.images["laserRedExplosion2"].src = "assets/PNG/Lasers/laserRed08.png";
+
+    // enemies
+    this.images["enemyBlue"] = new Image();
+    this.images["enemyBlue"].src = "assets/PNG/Enemies/enemyBlue4.png";
+    this.images["enemyRed"] = new Image();
+    this.images["enemyRed"].src = "assets/PNG/Enemies/enemyRed4.png";
+    this.images["enemyGreen"] = new Image();
+    this.images["enemyGreen"].src = "assets/PNG/Enemies/enemyGreen3.png";
+    this.images["enemyBlack"] = new Image();
+    this.images["enemyBlack"].src = "assets/PNG/Enemies/enemyBlack3.png";
 };
