@@ -12,6 +12,7 @@ CollisionManager.prototype.checkAndResolve = function(delta) {
 
     if (this.collisionDelayTimer > 10) {
         this.checkMeteorsWithMeteors();
+        this.checkSpacecraftWithMeteors();
         this.collisionDelayTimer = 0;
     }
 
@@ -25,43 +26,9 @@ CollisionManager.prototype.checkMeteorsWithMeteors = function() {
     }
 
     for (var i = 0; i < this.meteors.length - 1; i++) {
-        var distanceX = this.meteors[i].xCentre - this.meteors[i + 1].xCentre;
-        var distanceY = this.meteors[i].yCentre - this.meteors[i + 1].yCentre;
-        var distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-        // 2D circle collision detection
-        if (this.meteors[i].radius + this.meteors[i + 1].radius > distance) {
-            console.log("COLLISION METEORS");
-
-            var tempVelX = this.meteors[i].xVelocity;
-            var tempVelY = this.meteors[i].yVelocity;
-            var totalMass = this.meteors[i].mass + this.meteors[i + 1].mass;
-
-            //console.log("HEHE " + tempVelX + ", " + tempVelY);
-
-            // velocity after elastic collision
-            this.meteors[i].xVelocity = (this.meteors[i].xVelocity
-                * (this.meteors[i].mass - this.meteors[i + 1].mass) + 2
-                * this.meteors[i + 1].mass * this.meteors[i + 1].xVelocity) / totalMass;
-
-            this.meteors[i].yVelocity = (this.meteors[i].yVelocity
-                * (this.meteors[i].mass - this.meteors[i + 1].mass) + 2
-                * this.meteors[i + 1].mass * this.meteors[i + 1].yVelocity) / totalMass;
-
-            this.meteors[i + 1].xVelocity = (this.meteors[i + 1].xVelocity
-                * (this.meteors[i + 1].mass - this.meteors[i].mass) + 2
-                * this.meteors[i].mass * tempVelX) / totalMass;
-
-            this.meteors[i + 1].yVelocity = (this.meteors[i + 1].yVelocity
-                * (this.meteors[i + 1].mass - this.meteors[i].mass) + 2
-                * this.meteors[i].mass * tempVelY) / totalMass;
-
-
-            //console.log("ax:" + this.meteors[i].xVelocity);
-            //console.log("ay:" + this.meteors[i].yVelocity);
-            //console.log("bx:" + this.meteors[i + 1].xVelocity);
-            //console.log("by:" + this.meteors[i + 1].yVelocity);
-
+        if (this.circleCircleCollision(this.meteors[i], this.meteors[i + 1])) {
+            //console.log("COLLISION METEORS");
+            this.resolveElasticCollision(this.meteors[i], this.meteors[i + 1]);
             this.meteors[i].updateRotation(this.meteors[i + 1].xCentre);
             this.meteors[i + 1].updateRotation(this.meteors[i].xCentre);
         }
@@ -133,6 +100,14 @@ CollisionManager.prototype.rectRectCollision = function(rect1, rect2) {
         && rect1.height + rect1.yPosition > rect2.yPosition;
 };
 
+CollisionManager.prototype.circleCircleCollision = function(circle1, circle2) {
+    var distanceX = circle1.xCentre - circle2.xCentre;
+    var distanceY = circle1.yCentre - circle2.yCentre;
+    var distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+    return circle1.radius + circle2.radius > distance;
+};
+
 // http://stackoverflow.com/questions/21089959/detecting-collision-of-rectangle-with-circle
 CollisionManager.prototype.circleRectCollision = function(circle, rect) {
     var distanceX = Math.abs(circle.xCentre - rect.xPosition - rect.width / 2);
@@ -160,6 +135,30 @@ CollisionManager.prototype.circleRectCollision = function(circle, rect) {
     return dx * dx + dy * dy <= (circle.radius * circle.radius);
 };
 
+CollisionManager.prototype.checkSpacecraftWithMeteors = function() {
+    for (var i = 0; i < this.meteors.length; i++) {
+        
+    }
+};
+
+CollisionManager.prototype.resolveElasticCollision = function(body1, body2) {
+    var tempVelX = body1.xVelocity;
+    var tempVelY = body1.yVelocity;
+    var totalMass = body1.mass + body2.mass;
+
+    // velocity after elastic collision
+    body1.xVelocity = (body1.xVelocity * (body1.mass - body2.mass)
+        + 2 * body2.mass * body2.xVelocity) / totalMass;
+
+    body1.yVelocity = (body1.yVelocity * (body1.mass - body2.mass)
+        + 2 * body2.mass * body2.yVelocity) / totalMass;
+
+    body2.xVelocity = (body2.xVelocity * (body2.mass - body1.mass)
+        + 2 * body1.mass * tempVelX) / totalMass;
+
+    body2.yVelocity = (body2.yVelocity * (body2.mass - body1.mass)
+        + 2 * body1.mass * tempVelY) / totalMass;
+};
 
 
 
