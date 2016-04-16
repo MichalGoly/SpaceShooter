@@ -26,7 +26,7 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
 
     this.isShieldAnimating = false;
     this.isShieldUp = false;
-    this.shieldDuriation = 5000;
+    this.shieldDuriation = 10000;
     this.shieldDelayTimer = 0;
     this.shieldIndex = 0;
 
@@ -78,6 +78,7 @@ Spacecraft.prototype.update = function(delta) {
         if (this.shieldDelayTimer > 500) {
             if (this.shieldIndex < 3) {
                 this.shieldIndex++;
+                console.log("Shield Up: " + this.shieldIndex);
             } else {
                 this.isShieldUp = true;
                 this.isShieldAnimating = false;
@@ -92,10 +93,13 @@ Spacecraft.prototype.update = function(delta) {
         if (this.shieldDelayTimer > 500) {
             if (this.shieldIndex > 0) {
                 this.shieldIndex--;
+                console.log("Shield down: " + this.shieldIndex);
             } else {
                 this.shieldUp = false;
                 this.isShieldAnimating = false;
             }
+
+            this.shieldDelayTimer = 0;
         }
     } else if (this.isShieldUp) {
         // count time

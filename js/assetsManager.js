@@ -43,4 +43,10 @@ AssetsManager.prototype.loadAll = function() {
     this.images["meteorMedium"].src = "assets/PNG/Meteors/meteorGrey_med1.png";
     this.images["meteorTiny"] = new Image();
     this.images["meteorTiny"].src = "assets/PNG/Meteors/meteorBrown_tiny1.png";
+
+    // power ups
+    this.images["shieldPower"] = new Image();
+    this.images["shieldPower"].src = "assets/PNG/Power-ups/powerupYellow_shield.png";
+    this.images["boltPower"] = new Image();
+    this.images["boltPower"].src = "assets/PNG/Power-ups/powerupGreen_bolt.png";
 };

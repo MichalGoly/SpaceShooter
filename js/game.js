@@ -27,6 +27,9 @@ Game.prototype.newGame = function() {
     this.meteors.push(new Meteor(500, 50, "tiny", this.assetsManager));
     this.meteors.push(new Meteor(300, 300, "medium", this.assetsManager));
 
+    this.powerUps = [];
+    this.powerUps.push(new PowerUp(400, 400, "boltPower", this.assetsManager));
+
     this.collisionManager = new CollisionManager(this);
 };
 
@@ -61,6 +64,10 @@ Game.prototype.render = function() {
 
     for (var i = 0; i < this.meteors.length; i++) {
         this.meteors[i].draw(this.context);
+    }
+
+    for (var i = 0; i < this.powerUps.length; i++) {
+        this.powerUps[i].draw(this.context);
     }
 };
 
