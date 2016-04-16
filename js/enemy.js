@@ -15,12 +15,20 @@ var Enemy = function(xPosition, yPosition, type, assetsManager, spacecraft) {
     this.xCentre = this.xPosition + this.radius;
     this.yCentre = this.yPosition + this.radius;
 
-    if (this.type === "enemyBlue" || this.type === "enemyRed") {
-        this.accelerateFactor = 0.5;
-        this.maxVelocity = 20;
+    if (this.type === "enemyBlue" || this.type === "enemyGreen") {
+        this.accelerateFactor = 1;
+        this.maxVelocity = 7;
     } else {
         this.accelerateFactor = 1;
-        this.maxVelocity = 40;
+        this.maxVelocity = 20;
+    }
+
+    this.behaviourStarted = false;
+
+    // for blue and red behaviour
+    if (this.type === "enemyBlue" || this.type === "enemyRed") {
+        // random value <100, 600>
+        this.initialDescentDistance = Math.floor(Math.random() * (600 - 100 + 1)) + 100;
     }
 
     this.goDown = false;
@@ -32,6 +40,7 @@ var Enemy = function(xPosition, yPosition, type, assetsManager, spacecraft) {
     this.explosionTimer = 0;
     this.isExploded = false;
     this.explosionIndex = 0;
+
 
 };
 
@@ -46,6 +55,10 @@ Enemy.prototype.update = function(delta) {
 
     this.yPosition += (this.yVelocity / 10);
     this.xPosition += (this.xVelocity / 10);
+
+    this.radius = this.width / 2;
+    this.xCentre = this.xPosition + this.radius;
+    this.yCentre = this.yPosition + this.radius;
 
     if (this.isExploding) {
         this.explosionTimer += delta;
@@ -81,7 +94,7 @@ Enemy.prototype.updateDirection = function() {
     }
 
     // accelerate further up
-    if (this.goUp && (Math.abs(this.yVelocity) <= this.maxVelocity)) {
+    if (this.goUp && (Math.abs(this.yVelocity) < this.maxVelocity)) {
         this.yVelocity -= this.accelerateFactor;
     }
 
@@ -91,7 +104,7 @@ Enemy.prototype.updateDirection = function() {
     }
 
     // accelerate further down
-    if (this.goDown && (Math.abs(this.yVelocity) <= this.maxVelocity)) {
+    if (this.goDown && (Math.abs(this.yVelocity) < this.maxVelocity)) {
         this.yVelocity += this.accelerateFactor;
     }
 
@@ -101,7 +114,7 @@ Enemy.prototype.updateDirection = function() {
     }
 
     // accelerate further right
-    if (this.goRight && (Math.abs(this.xVelocity) <= this.maxVelocity)) {
+    if (this.goRight && (Math.abs(this.xVelocity) < this.maxVelocity)) {
         this.xVelocity += this.accelerateFactor;
     }
 
@@ -111,7 +124,7 @@ Enemy.prototype.updateDirection = function() {
     }
 
     // accelerate further left
-    if (this.goLeft && (Math.abs(this.xVelocity) <= this.maxVelocity)) {
+    if (this.goLeft && (Math.abs(this.xVelocity) < this.maxVelocity)) {
         this.xVelocity -= this.accelerateFactor;
     }
 };
@@ -150,12 +163,49 @@ Enemy.prototype.doBehaviour = function() {
     }
 };
 
+// slowly fly into the spacecraft, don't shoot
 Enemy.prototype.doBlueBehaviour = function() {
+    if (!this.behaviourStarted) {
+        this.goDown = true;
+        this.behaviourStarted = true;
+    } else {
+        if (this.yPosition < 100) {
+            return;
+        }
 
+        if (this.xCentre < this.spacecraft.xCentre) {
+            this.goLeft = false;
+            this.goRight = true;
+        } else if (this.xCentre > this.spacecraft.xCentre) {
+            this.goLeft = true;
+            this.goRight = false;
+        } else {
+            this.goLeft = false;
+            this.goRight = false;
+        }
+    }
 };
 
 Enemy.prototype.doRedBehaviour = function() {
+    if (!this.behaviourStarted) {
+        this.goDown = true;
+        this.behaviourStarted = true;
+    } else {
+        if (this.yPosition < this.initialDescentDistance) {
+            return;
+        }
 
+        if (this.xCentre < this.spacecraft.xCentre) {
+            this.goLeft = false;
+            this.goRight = true;
+        } else if (this.xCentre > this.spacecraft.xCentre) {
+            this.goLeft = true;
+            this.goRight = false;
+        } else {
+            this.goLeft = false;
+            this.goRight = false;
+        }
+    }
 };
 
 Enemy.prototype.doGreenBehaviour = function() {

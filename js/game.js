@@ -32,7 +32,9 @@ Game.prototype.newGame = function() {
     this.powerUps.push(new PowerUp(200, 200, "shieldPower", this.assetsManager));
 
     this.enemies = [];
-    this.enemies.push(new Enemy(300, 30, "enemyBlue", this.assetsManager, this.spacecraft));
+    this.enemies.push(new Enemy(100, -70, "enemyBlue", this.assetsManager, this.spacecraft));
+    this.enemies.push(new Enemy(500, -180, "enemyRed", this.assetsManager, this.spacecraft));
+
 
     this.collisionManager = new CollisionManager(this);
 };
@@ -62,6 +64,10 @@ Game.prototype.update = function(delta) {
     }
 
     // TODO clean up meteors off the screen and meteors blowed up
+
+    for (var i = 0; i < this.enemies.length; i++) {
+        this.enemies[i].update(delta);
+    }
 };
 
 Game.prototype.render = function() {
