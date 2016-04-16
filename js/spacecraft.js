@@ -71,46 +71,7 @@ Spacecraft.prototype.update = function(delta) {
         this.bulletCleanUpDelayTimer = 0;
     }
 
-    // shield stuff
-    if (this.isShieldAnimating && !this.isShieldUp) {
-        this.shieldDelayTimer += delta;
-
-        if (this.shieldDelayTimer > 500) {
-            if (this.shieldIndex < 3) {
-                this.shieldIndex++;
-                console.log("Shield Up: " + this.shieldIndex);
-            } else {
-                this.isShieldUp = true;
-                this.isShieldAnimating = false;
-            }
-
-            this.shieldDelayTimer = 0;
-        }
-    } else if (this.isShieldAnimating && this.isShieldUp) {
-        // shield down
-        this.shieldDelayTimer += delta;
-
-        if (this.shieldDelayTimer > 500) {
-            if (this.shieldIndex > 0) {
-                this.shieldIndex--;
-                console.log("Shield down: " + this.shieldIndex);
-            } else {
-                this.shieldUp = false;
-                this.isShieldAnimating = false;
-            }
-
-            this.shieldDelayTimer = 0;
-        }
-    } else if (this.isShieldUp) {
-        // count time
-        this.shieldDelayTimer += delta;
-
-        if (this.shieldDelayTimer > this.shieldDuriation) {
-            // put the shield down
-            this.isShieldAnimating = true;
-            this.shieldDelayTimer = 0;
-        }
-    }
+    this.updateShield(delta);
 };
 
 Spacecraft.prototype.draw = function(ctx) {
@@ -211,6 +172,49 @@ Spacecraft.prototype.updateDirection = function() {
     }
 };
 
+Spacecraft.prototype.updateShield = function(delta) {
+    // shield stuff
+    if (this.isShieldAnimating && !this.isShieldUp) {
+        this.shieldDelayTimer += delta;
+
+        if (this.shieldDelayTimer > 500) {
+            if (this.shieldIndex < 3) {
+                this.shieldIndex++;
+                //console.log("Shield Up: " + this.shieldIndex);
+            } else {
+                this.isShieldUp = true;
+                this.isShieldAnimating = false;
+            }
+
+            this.shieldDelayTimer = 0;
+        }
+    } else if (this.isShieldAnimating && this.isShieldUp) {
+        // shield down
+        this.shieldDelayTimer += delta;
+
+        if (this.shieldDelayTimer > 500) {
+            if (this.shieldIndex > 0) {
+                this.shieldIndex--;
+                //console.log("Shield down: " + this.shieldIndex);
+            } else {
+                this.shieldUp = false;
+                this.isShieldAnimating = false;
+            }
+
+            this.shieldDelayTimer = 0;
+        }
+    } else if (this.isShieldUp) {
+        // count time
+        this.shieldDelayTimer += delta;
+
+        if (this.shieldDelayTimer > this.shieldDuriation) {
+            // put the shield down
+            this.isShieldAnimating = true;
+            this.shieldDelayTimer = 0;
+        }
+    }
+};
+
 Spacecraft.prototype.fire = function(color) {
     if (color === "blue" || color === "green") {
         this.bullets.push(new Bullet(this.xPosition + (this.width / 2) - (14 / 2) ,
@@ -223,3 +227,5 @@ Spacecraft.prototype.fire = function(color) {
 Spacecraft.prototype.shieldUp = function() {
     this.isShieldAnimating = true;
 };
+
+
