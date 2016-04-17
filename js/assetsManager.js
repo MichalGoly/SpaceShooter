@@ -80,4 +80,8 @@ AssetsManager.prototype.loadAll = function() {
     this.images["enemyGreen"].src = "assets/PNG/Enemies/enemyGreen3.png";
     this.images["enemyBlack"] = new Image();
     this.images["enemyBlack"].src = "assets/PNG/Enemies/enemyBlack3.png";
+
+    // score panel
+    this.images["livesRemaining"] = new Image();
+    this.images["livesRemaining"].src = "assets/PNG/UI/playerLife2_blue.png";
 };

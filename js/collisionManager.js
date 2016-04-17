@@ -77,7 +77,7 @@ CollisionManager.prototype.checkSpacecraftWithEnemies = function() {
     for (var i = 0; i < this.enemies.length; i++) {
         if (!this.enemies[i].isOnFire() && this.rectRectCollision(this.spacecraft, this.enemies[i])) {
             if (this.circleRectCollision(this.spacecraft, this.enemies[i])) {
-                console.log("Spacecraft - enemy collision");
+                //console.log("Spacecraft - enemy collision");
 
                 this.resolveElasticCollision(this.spacecraft, this.enemies[i]);
                 // blow up the enemy
@@ -85,6 +85,8 @@ CollisionManager.prototype.checkSpacecraftWithEnemies = function() {
 
                 if (!this.spacecraft.isShieldUp) {
                     this.spacecraft.livesRemaining--;
+                } else {
+                    this.spacecraft.score += 20;
                 }
             }
         }
@@ -172,6 +174,8 @@ CollisionManager.prototype.checkSpacecraftWithMeteors = function() {
 
                 if (!this.spacecraft.isShieldUp) {
                     this.spacecraft.livesRemaining--;
+                } else {
+                    this.spacecraft.score += 10;
                 }
             }
         }
@@ -195,6 +199,7 @@ CollisionManager.prototype.checkSpacecraftBulletsWithMeteorsEnemies = function()
                 //console.log("Bullet - Meteor Collision");
                 this.meteors[j].explode();
                 this.spacecraft.bullets[i].explode();
+                this.spacecraft.score += 10;
             }
         }
 
@@ -208,6 +213,7 @@ CollisionManager.prototype.checkSpacecraftBulletsWithMeteorsEnemies = function()
                 //console.log("Bullet - Enemy collision");
                 this.enemies[k].explode();
                 this.spacecraft.bullets[i].explode();
+                this.spacecraft.score += 20;
             }
         }
     }

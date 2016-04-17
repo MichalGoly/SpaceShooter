@@ -38,6 +38,7 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
     this.shieldIndex = 0;
 
     this.livesRemaining = 3;
+    this.score = 0;
 };
 
 Spacecraft.prototype.update = function(delta) {

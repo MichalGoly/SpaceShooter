@@ -17,8 +17,6 @@ var Game = function(canvas, context) {
 };
 
 Game.prototype.newGame = function() {
-    this.score = 0;
-
     this.background = new Background(this.canvas, this.assetsManager);
     this.spacecraft = new Spacecraft(this.canvas, this.inputManager, this.assetsManager);
     this.meteors = [];
@@ -38,6 +36,7 @@ Game.prototype.newGame = function() {
     this.enemies.push(new Enemy(100, -100, "enemyBlack", this.assetsManager, this.spacecraft));
 
     this.collisionManager = new CollisionManager(this);
+    this.scorePanel = new ScorePanel(this.assetsManager, this.spacecraft);
 };
 
 // https://coderwall.com/p/iygcpa/gameloop-the-correct-way
@@ -64,7 +63,7 @@ Game.prototype.update = function(delta) {
         this.meteors[i].update(delta);
     }
 
-    // TODO clean up meteors off the screen and meteors blowed up
+    // TODO clean up meteors/enemies off the screen and meteors blowed up
 
     for (var i = 0; i < this.enemies.length; i++) {
         this.enemies[i].update(delta);
@@ -74,6 +73,7 @@ Game.prototype.update = function(delta) {
 Game.prototype.render = function() {
     this.background.draw(this.context);
     this.spacecraft.draw(this.context);
+    this.scorePanel.draw(this.context);
 
     for (var i = 0; i < this.meteors.length; i++) {
         this.meteors[i].draw(this.context);

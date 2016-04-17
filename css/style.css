@@ -1,5 +1,11 @@
+@font-face {
+    font-family: "kenvector_future_thin";
+    src: url("../assets/Bonus/kenvector_future_thin.ttf");
+}
+
 body {
     background-color: #535353;
+    font-family: "kenvector_future_thin", serif;
 }
 
 #wrapper {
