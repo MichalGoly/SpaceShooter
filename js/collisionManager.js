@@ -14,7 +14,7 @@ CollisionManager.prototype.checkAndResolve = function(delta) {
     if (this.collisionDelayTimer > 10) {
         this.checkMeteorsWithMeteors();
         this.checkSpacecraftWithMeteors();
-        this.checkSpacecraftBulletsWithMeteorsEnemies();
+        //this.checkSpacecraftBulletsWithMeteorsEnemies();
         this.collisionDelayTimer = 0;
     }
 

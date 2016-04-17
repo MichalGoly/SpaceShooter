@@ -25,15 +25,24 @@ var Enemy = function(xPosition, yPosition, type, assetsManager, spacecraft) {
 
     this.behaviourStarted = false;
 
-    // for blue and red behaviour
-    if (this.type === "enemyBlue" || this.type === "enemyRed") {
+    // for blue and red behaviour (also last bit of black behaviour)
+    if (this.type === "enemyBlue" || this.type === "enemyRed" || this.type === "enemyBlack") {
         // random value <100, 600>
         this.initialDescentDistance = Math.floor(Math.random() * (600 - 100 + 1)) + 100;
-    } else {
-        // green and black
+    }
+
+    // green and black
+    if (this.type === "enemyGreen" || this.type === "enemyBlack") {
         this.bulletDelayTimer = 0;
         this.bullets = [];
+        this.startFire = false;
     }
+
+    // black behaviour
+    this.flewToPlayer = false;
+    this.flewFromPlayer = false;
+    this.flyingToLeftWall = false;
+    this.flyingToRightWall = false;
 
     this.goDown = false;
     this.goUp = false;
@@ -44,8 +53,6 @@ var Enemy = function(xPosition, yPosition, type, assetsManager, spacecraft) {
     this.explosionTimer = 0;
     this.isExploded = false;
     this.explosionIndex = 0;
-
-
 };
 
 Enemy.prototype.update = function(delta) {
@@ -64,7 +71,7 @@ Enemy.prototype.update = function(delta) {
     this.xCentre = this.xPosition + this.radius;
     this.yCentre = this.yPosition + this.radius;
 
-    if (this.type === "enemyGreen" || this.type === "enemyBlack") {
+    if ((this.type === "enemyGreen" || this.type === "enemyBlack") && this.startFire) {
         this.bulletDelayTimer += delta;
 
         if (this.bulletDelayTimer > 1000) {
@@ -182,7 +189,7 @@ Enemy.prototype.doBehaviour = function() {
         this.doRedBehaviour();
     } else if (this.type === "enemyGreen") {
         this.doGreenBehaviour();
-    } else if (this.type === "enemyRed") {
+    } else if (this.type === "enemyBlack") {
         this.doBlackBehaviour();
     }
 };
@@ -233,23 +240,78 @@ Enemy.prototype.doRedBehaviour = function() {
 };
 
 Enemy.prototype.doGreenBehaviour = function() {
-    if (!this.behaviourStarted){
-
-    } else {
-
+    if (!this.behaviourStarted) {
+        this.goDown = true;
+        this.behaviourStarted = true;
+    } else if (this.yPosition > 0) {
+        this.startFire = true;
     }
 };
 
 Enemy.prototype.doBlackBehaviour = function() {
     if (!this.behaviourStarted){
-
+        this.goDown = true;
+        this.behaviourStarted = true;
     } else {
+        if (this.yPosition > 0) {
+            this.startFire = true;
+        }
 
+        if (this.yPosition > 10 && !this.flewToPlayer && !this.flewFromPlayer) {
+            this.goDown = false;
+            this.yVelocity = 0;
+
+            if (this.xCentre > this.spacecraft.xPosition && this.xCentre
+                < this.spacecraft.xPosition + this.spacecraft.width) {
+                this.flewToPlayer = true;
+            } else if (this.xCentre < this.spacecraft.xCentre) {
+                this.goLeft = false;
+                this.goRight = true;
+            } else  {
+                this.goLeft = true;
+                this.goRight = false;
+            }
+        } else if (this.flewToPlayer && !this.flewFromPlayer) {
+
+            if (this.xCentre > 300 && !this.flyingToRightWall) {
+                this.goLeft = true;
+                this.goRight = false;
+                this.flyingToLeftWall = true;
+            } else if (!this.flyingToLeftWall){
+                this.goLeft = false;
+                this.goRight = true;
+                this.flyingToRightWall = true;
+            }
+
+            // check if next to wall
+            if (this.xPosition < 50 || this.xPosition > 500) {
+                this.goDown = true;
+                this.goLeft = false;
+                this.goRight = false;
+                this.xVelocity = 0;
+                this.flewFromPlayer = true;
+            }
+        } else if (this.flewFromPlayer && this.flewToPlayer) {
+            // final bit, do red behaviour
+            if (this.yPosition < this.initialDescentDistance) {
+                return;
+            }
+
+            if (this.xCentre < this.spacecraft.xCentre) {
+                this.goLeft = false;
+                this.goRight = true;
+            } else if (this.xCentre > this.spacecraft.xCentre) {
+                this.goLeft = true;
+                this.goRight = false;
+            } else {
+                this.goLeft = false;
+                this.goRight = false;
+            }
+        }
     }
 };
 
 Enemy.prototype.fire = function() {
-    console.log("fire");
     this.bullets.push(new Bullet(this.xPosition + (this.width / 2) - (14 / 2),
         this.yPosition + this.height / 2, "red", this.assetsManager));
 };
