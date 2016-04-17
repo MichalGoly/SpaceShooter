@@ -65,6 +65,9 @@ Meteor.prototype.initialiseRoute = function() {
             console.error(type + " is not a valid type of route of a meteor!");
             break;
     }
+
+    // random yVelocity between 8 and 12
+    this.yVelocity = Math.floor(Math.random() * (12 - 8 + 1)) + 8;
 };
 
 Meteor.prototype.update = function(delta) {

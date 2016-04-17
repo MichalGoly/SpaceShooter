@@ -7,12 +7,14 @@ var GameplayManager = function(game) {
     this.spacecraft = game.spacecraft;
 
     this.enemiesSpawnDelay = 5000;
+    this.enemiesSpawnDelayMin = 1000; // max difficulty
     this.enemiesSpawnDelayTimer = 0;
 
     this.meteorsSpawnDelay = 3000;
+    this.meteorsSpawnDelayMin = 1000; // max difficulty
     this.meteorsSpawnDelayTimer = 0;
 
-    this.powerUpsSpawnDelay = 10000;
+    this.powerUpsSpawnDelay = 20000;
     this.powerUpsSpawnDelayTimer = 0;
 
     this.cleanUpDelay = 15000;
@@ -47,6 +49,8 @@ GameplayManager.prototype.update = function(delta) {
 
         this.cleanUpDelayTimer = 0;
     }
+
+    this.increaseDifficulty(delta);
 };
 
 GameplayManager.prototype.spawnMeteors = function(delta) {
@@ -73,6 +77,29 @@ GameplayManager.prototype.spawnEnemies = function(delta) {
 
 GameplayManager.prototype.spawnPowerUps = function(delta) {
     this.powerUpsSpawnDelayTimer += delta;
+
+    if (this.powerUpsSpawnDelayTimer > this.powerUpsSpawnDelay) {
+        this.powerUps.push(new PowerUp(this.getPowerUpXPosition(),
+            this.getPowerUpYPosition(), this.getPowerUpType(), this.assetsManager));
+
+        this.powerUpsSpawnDelayTimer = 0;
+    }
+};
+
+GameplayManager.prototype.increaseDifficulty = function(delta) {
+    this.difficultyDelayTimer += delta;
+
+    if (this.difficultyDelayTimer > this.difficultyDelay) {
+        if (this.meteorsSpawnDelay > this.meteorsSpawnDelayMin) {
+            this.meteorsSpawnDelay -= 200;
+        }
+
+        if (this.enemiesSpawnDelay > this.enemiesSpawnDelayMin) {
+            this.enemiesSpawnDelay -= 200;
+        }
+
+        this.difficultyDelayTimer = 0;
+    }
 };
 
 // get random integer between 100 and canvas - 100
@@ -119,6 +146,19 @@ GameplayManager.prototype.getEnemyType = function() {
     } else {
         return "enemyBlack";
     }
+};
+
+GameplayManager.prototype.getPowerUpXPosition = function() {
+    return this.getIntegerBetween(100, this.canvas.width - 100);
+};
+
+GameplayManager.prototype.getPowerUpYPosition = function() {
+    return this.getIntegerBetween(100, this.canvas.height - 100);
+};
+
+GameplayManager.prototype.getPowerUpType = function() {
+    var choice = this.getIntegerBetween(0, 1);
+    return choice === 0 ? "shieldPower" : "boltPower";
 };
 
 GameplayManager.prototype.isOffCanvas = function(entity) {

@@ -229,7 +229,7 @@ Spacecraft.prototype.updateShield = function(delta) {
                 this.shieldIndex--;
                 //console.log("Shield down: " + this.shieldIndex);
             } else {
-                this.shieldUp = false;
+                this.isShieldUp = false;
                 this.isShieldAnimating = false;
             }
 
@@ -269,7 +269,12 @@ Spacecraft.prototype.fire = function(color) {
 };
 
 Spacecraft.prototype.shieldUp = function() {
-    this.isShieldAnimating = true;
+    if (this.isShieldUp) {
+        this.shieldDelayTimer = 0;
+        this.isShieldAnimating = false;
+    } else {
+        this.isShieldAnimating = true;
+    }
 };
 
 Spacecraft.prototype.boltPowerUp = function() {

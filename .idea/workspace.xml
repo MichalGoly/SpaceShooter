@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fad42d78-48be-4e5d-8dc5-a142561df4e7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/gameplayManager.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/game.js" afterPath="$PROJECT_DIR$/js/game.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gameplayManager.js" afterPath="$PROJECT_DIR$/js/gameplayManager.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/meteor.js" afterPath="$PROJECT_DIR$/js/meteor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/spacecraft.js" afterPath="$PROJECT_DIR$/js/spacecraft.js" />
     </list>
     <ignored path="JSGame.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,6 +27,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="spacecraft.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/spacecraft.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="game.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/game.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -39,11 +47,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gameplayManager.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="powerUp.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/powerUp.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gameplayManager.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gameplayManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39106902">
-              <caret line="74" column="42" selection-start-line="74" selection-start-column="42" selection-end-line="74" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="170" column="61" selection-start-line="170" selection-start-column="11" selection-end-line="170" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -69,33 +87,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="background.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/background.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="21" selection-end-column="40" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="meteor.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="meteor.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/meteor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="169" column="21" selection-start-line="169" selection-start-column="21" selection-end-line="169" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.65384614">
-              <caret line="1" column="41" selection-start-line="1" selection-start-column="41" selection-end-line="1" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.7361299">
+              <caret line="68" column="40" selection-start-line="68" selection-start-column="40" selection-end-line="68" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -105,7 +101,7 @@
         <entry file="file://$PROJECT_DIR$/js/assetsManager.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="85" column="77" selection-start-line="85" selection-start-column="77" selection-end-line="85" selection-end-column="77" />
+              <caret line="47" column="28" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -115,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/js/collisionManager.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="117" column="32" selection-start-line="117" selection-start-column="26" selection-end-line="117" selection-end-column="32" />
+              <caret line="105" column="29" selection-start-line="105" selection-start-column="29" selection-end-line="105" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -161,15 +157,15 @@
         <option value="$PROJECT_DIR$/js/powerUp.js" />
         <option value="$PROJECT_DIR$/js/enemy.js" />
         <option value="$PROJECT_DIR$/js/bullet.js" />
-        <option value="$PROJECT_DIR$/js/spacecraft.js" />
         <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/js/assetsManager.js" />
         <option value="$PROJECT_DIR$/js/scorePanel.js" />
         <option value="$PROJECT_DIR$/js/collisionManager.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/meteor.js" />
         <option value="$PROJECT_DIR$/js/game.js" />
+        <option value="$PROJECT_DIR$/js/spacecraft.js" />
         <option value="$PROJECT_DIR$/js/gameplayManager.js" />
+        <option value="$PROJECT_DIR$/js/meteor.js" />
       </list>
     </option>
   </component>
@@ -725,7 +721,7 @@
       <workItem from="1460720997182" duration="782000" />
       <workItem from="1460723209921" duration="13444000" />
       <workItem from="1460798517350" duration="25914000" />
-      <workItem from="1460883870878" duration="15048000" />
+      <workItem from="1460883870878" duration="18290000" />
     </task>
     <task id="LOCAL-00001" summary="spacecraft can move in all directions + static background">
       <created>1460500232626</created>
@@ -737,7 +733,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164041000" />
+    <option name="totallyTimeSpent" value="167283000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1600" height="875" extended-state="4" />
@@ -994,14 +990,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/powerUp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/inputManager.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1026,14 +1014,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/spacecraft.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="19" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.65384614">
@@ -1052,26 +1032,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/assetsManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="85" column="77" selection-start-line="85" selection-start-column="77" selection-end-line="85" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/scorePanel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="2" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.9615386">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
           <folding />
         </state>
       </provider>
@@ -1084,14 +1048,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/meteor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="169" column="21" selection-start-line="169" selection-start-column="21" selection-end-line="169" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/game.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1100,18 +1056,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/powerUp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/assetsManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="47" column="28" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.9615386">
+          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/spacecraft.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/collisionManager.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="117" column="32" selection-start-line="117" selection-start-column="26" selection-end-line="117" selection-end-column="32" />
+          <caret line="105" column="29" selection-start-line="105" selection-start-column="29" selection-end-line="105" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gameplayManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39106902">
-          <caret line="74" column="42" selection-start-line="74" selection-start-column="42" selection-end-line="74" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="170" column="61" selection-start-line="170" selection-start-column="11" selection-end-line="170" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/meteor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7361299">
+          <caret line="68" column="40" selection-start-line="68" selection-start-column="40" selection-end-line="68" selection-end-column="40" />
           <folding />
         </state>
       </provider>
