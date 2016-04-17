@@ -44,22 +44,22 @@ Meteor.prototype.initialiseRoute = function() {
     switch (type) {
         case 0:
             this.isRotatingClockwise = false;
-            this.xVelocity = -5;
+            this.xVelocity = -2;
             break;
         case 1:
             this.isRotatingClockwise = false;
-            this.xVelocity = -8;
+            this.xVelocity = -5;
             break;
         case 2:
             this.isRotatingClockwise = true;
             break;
         case 3:
             this.isRotatingClockwise = true;
-            this.xVelocity = 5;
+            this.xVelocity = 2;
             break;
         case 4:
             this.isRotatingClockwise = true;
-            this.xVelocity = 8;
+            this.xVelocity = 5;
             break;
         default:
             console.error(type + " is not a valid type of route of a meteor!");

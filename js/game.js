@@ -20,23 +20,12 @@ Game.prototype.newGame = function() {
     this.background = new Background(this.canvas, this.assetsManager);
     this.spacecraft = new Spacecraft(this.canvas, this.inputManager, this.assetsManager);
     this.meteors = [];
-    this.meteors.push(new Meteor(100, 50, "big", this.assetsManager));
-    this.meteors.push(new Meteor(190, 50, "medium", this.assetsManager));
-    this.meteors.push(new Meteor(500, 50, "tiny", this.assetsManager));
-    this.meteors.push(new Meteor(300, 300, "medium", this.assetsManager));
-
     this.powerUps = [];
-    this.powerUps.push(new PowerUp(400, 400, "boltPower", this.assetsManager));
-    this.powerUps.push(new PowerUp(200, 200, "shieldPower", this.assetsManager));
-
     this.enemies = [];
-    this.enemies.push(new Enemy(100, -70, "enemyBlue", this.assetsManager, this.spacecraft));
-    this.enemies.push(new Enemy(500, -180, "enemyRed", this.assetsManager, this.spacecraft));
-    this.enemies.push(new Enemy(400, 30, "enemyGreen", this.assetsManager, this.spacecraft));
-    this.enemies.push(new Enemy(100, -100, "enemyBlack", this.assetsManager, this.spacecraft));
 
     this.collisionManager = new CollisionManager(this);
     this.scorePanel = new ScorePanel(this.assetsManager, this.spacecraft);
+    this.gameplayManager = new GameplayManager(this);
 };
 
 // https://coderwall.com/p/iygcpa/gameloop-the-correct-way
@@ -58,12 +47,11 @@ Game.prototype.run = function() {
 Game.prototype.update = function(delta) {
     this.background.update();
     this.spacecraft.update(delta);
+    this.gameplayManager.update(delta);
 
     for (var i = 0; i < this.meteors.length; i++) {
         this.meteors[i].update(delta);
     }
-
-    // TODO clean up meteors/enemies off the screen and meteors blowed up
 
     for (var i = 0; i < this.enemies.length; i++) {
         this.enemies[i].update(delta);
