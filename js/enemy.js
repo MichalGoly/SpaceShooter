@@ -29,6 +29,10 @@ var Enemy = function(xPosition, yPosition, type, assetsManager, spacecraft) {
     if (this.type === "enemyBlue" || this.type === "enemyRed") {
         // random value <100, 600>
         this.initialDescentDistance = Math.floor(Math.random() * (600 - 100 + 1)) + 100;
+    } else {
+        // green and black
+        this.bulletDelayTimer = 0;
+        this.bullets = [];
     }
 
     this.goDown = false;
@@ -60,6 +64,19 @@ Enemy.prototype.update = function(delta) {
     this.xCentre = this.xPosition + this.radius;
     this.yCentre = this.yPosition + this.radius;
 
+    if (this.type === "enemyGreen" || this.type === "enemyBlack") {
+        this.bulletDelayTimer += delta;
+
+        if (this.bulletDelayTimer > 1000) {
+            this.fire();
+            this.bulletDelayTimer = 0;
+        }
+
+        for (var i = 0; i < this.bullets.length; i++) {
+            this.bullets[i].update(delta);
+        }
+    }
+
     if (this.isExploding) {
         this.explosionTimer += delta;
 
@@ -78,6 +95,13 @@ Enemy.prototype.update = function(delta) {
 
 Enemy.prototype.draw = function(ctx) {
     if (!this.isExploded && !this.isExploding) {
+
+        if (this.type === "enemyGreen" || this.type === "enemyBlack") {
+            for (var i = 0; i < this.bullets.length; i++) {
+                this.bullets[i].draw(ctx);
+            }
+        }
+
         ctx.drawImage(this.assetsManager.images[this.type], this.xPosition, this.yPosition,
             this.width, this.height);
     } else if (this.isExploding) {
@@ -169,7 +193,7 @@ Enemy.prototype.doBlueBehaviour = function() {
         this.goDown = true;
         this.behaviourStarted = true;
     } else {
-        if (this.yPosition < 100) {
+        if (this.yPosition < this.initialDescentDistance) {
             return;
         }
 
@@ -209,11 +233,25 @@ Enemy.prototype.doRedBehaviour = function() {
 };
 
 Enemy.prototype.doGreenBehaviour = function() {
+    if (!this.behaviourStarted){
 
+    } else {
+
+    }
 };
 
 Enemy.prototype.doBlackBehaviour = function() {
+    if (!this.behaviourStarted){
 
+    } else {
+
+    }
+};
+
+Enemy.prototype.fire = function() {
+    console.log("fire");
+    this.bullets.push(new Bullet(this.xPosition + (this.width / 2) - (14 / 2),
+        this.yPosition + this.height / 2, "red", this.assetsManager));
 };
 
 Enemy.prototype.explode = function() {

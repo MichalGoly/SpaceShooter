@@ -34,7 +34,7 @@ Game.prototype.newGame = function() {
     this.enemies = [];
     this.enemies.push(new Enemy(100, -70, "enemyBlue", this.assetsManager, this.spacecraft));
     this.enemies.push(new Enemy(500, -180, "enemyRed", this.assetsManager, this.spacecraft));
-
+    this.enemies.push(new Enemy(400, 30, "enemyGreen", this.assetsManager, this.spacecraft));
 
     this.collisionManager = new CollisionManager(this);
 };
