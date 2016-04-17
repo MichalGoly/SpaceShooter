@@ -9,7 +9,7 @@ var Enemy = function(xPosition, yPosition, type, assetsManager, spacecraft) {
 
     this.xVelocity = 0;
     this.yVelocity = 0;
-    this.mass = 100;
+    this.mass = 200;
 
     this.radius = this.width / 2;
     this.xCentre = this.xPosition + this.radius;
@@ -36,6 +36,7 @@ var Enemy = function(xPosition, yPosition, type, assetsManager, spacecraft) {
         this.bulletDelayTimer = 0;
         this.bullets = [];
         this.startFire = false;
+        this.bulletCleanUpDelayTimer = 0;
     }
 
     // black behaviour
@@ -56,7 +57,18 @@ var Enemy = function(xPosition, yPosition, type, assetsManager, spacecraft) {
 };
 
 Enemy.prototype.update = function(delta) {
-    if (this.isExploded) {
+    if (this.isExploded && (this.type === "enemyBlue" || this.type === "enemyRed")) {
+        return;
+    } else if (this.isExploded && this.bullets.length !== 0) {
+        // make sure bullets move even after enemy blew up
+        for (var i = 0; i < this.bullets.length; i++) {
+            this.bullets[i].update(delta);
+        }
+
+        // run bullet clean up code
+        this.bulletsCleanUp(delta);
+        return;
+    } else if (this.isExploded) {
         return;
     }
 
@@ -82,6 +94,8 @@ Enemy.prototype.update = function(delta) {
         for (var i = 0; i < this.bullets.length; i++) {
             this.bullets[i].update(delta);
         }
+
+        this.bulletsCleanUp(delta);
     }
 
     if (this.isExploding) {
@@ -102,19 +116,18 @@ Enemy.prototype.update = function(delta) {
 
 Enemy.prototype.draw = function(ctx) {
     if (!this.isExploded && !this.isExploding) {
-
-        if (this.type === "enemyGreen" || this.type === "enemyBlack") {
-            for (var i = 0; i < this.bullets.length; i++) {
-                this.bullets[i].draw(ctx);
-            }
-        }
-
         ctx.drawImage(this.assetsManager.images[this.type], this.xPosition, this.yPosition,
             this.width, this.height);
     } else if (this.isExploding) {
         ctx.drawImage(this.assetsManager.images["explosion" + this.explosionIndex],
             this.xCentre - this.radius, this.yCentre - this.radius, this.radius * 2,
             this.radius * 2);
+    }
+
+    if (this.type === "enemyGreen" || this.type === "enemyBlack") {
+        for (var i = 0; i < this.bullets.length; i++) {
+            this.bullets[i].draw(ctx);
+        }
     }
 };
 
@@ -308,6 +321,24 @@ Enemy.prototype.doBlackBehaviour = function() {
                 this.goRight = false;
             }
         }
+    }
+};
+
+Enemy.prototype.bulletsCleanUp = function(delta) {
+    // every 10 seconds remove bullets that are off the screen
+    this.bulletCleanUpDelayTimer += delta;
+
+    if (this.bulletCleanUpDelayTimer > 10000) {
+        //console.log("Before: " + this.bullets.length);
+        for (var i = 0; i < this.bullets.length; i++) {
+            if (this.bullets[i].yPosition > 1000 || this.bullets[i].isExploded) {
+                this.bullets.splice(i, 1);
+                i--;
+            }
+        }
+
+        //console.log("After: " + this.bullets.length);
+        this.bulletCleanUpDelayTimer = 0;
     }
 };
 

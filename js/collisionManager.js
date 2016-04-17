@@ -14,7 +14,9 @@ CollisionManager.prototype.checkAndResolve = function(delta) {
     if (this.collisionDelayTimer > 10) {
         this.checkMeteorsWithMeteors();
         this.checkSpacecraftWithMeteors();
-        //this.checkSpacecraftBulletsWithMeteorsEnemies();
+        this.checkSpacecraftWithEnemies();
+        this.checkSpacecraftBulletsWithMeteorsEnemies();
+        this.checkEnemyBulletsWithSpacecraft();
         this.collisionDelayTimer = 0;
     }
 
@@ -68,6 +70,24 @@ CollisionManager.prototype.checkSpacecraftWithWalls = function() {
         this.spacecraft.yVelocity = 0;
         this.spacecraft.isDownWall = true;
         this.spacecraft.yPosition = this.game.canvas.height - this.spacecraft.height - 5;
+    }
+};
+
+CollisionManager.prototype.checkSpacecraftWithEnemies = function() {
+    for (var i = 0; i < this.enemies.length; i++) {
+        if (!this.enemies[i].isOnFire() && this.rectRectCollision(this.spacecraft, this.enemies[i])) {
+            if (this.circleRectCollision(this.spacecraft, this.enemies[i])) {
+                console.log("Spacecraft - enemy collision");
+
+                this.resolveElasticCollision(this.spacecraft, this.enemies[i]);
+                // blow up the enemy
+                this.enemies[i].explode();
+
+                if (!this.spacecraft.isShieldUp) {
+                    this.spacecraft.livesRemaining--;
+                }
+            }
+        }
     }
 };
 
@@ -143,9 +163,8 @@ CollisionManager.prototype.circleRectCollision = function(circle, rect) {
 
 CollisionManager.prototype.checkSpacecraftWithMeteors = function() {
     for (var i = 0; i < this.meteors.length; i++) {
-        if (this.circleCircleCollision(this.spacecraft, this.meteors[i])) {
-            if (!this.meteors[i].isOnFire()
-                && this.circleRectCollision(this.meteors[i], this.spacecraft)) {
+        if (!this.meteors[i].isOnFire() && this.circleCircleCollision(this.spacecraft, this.meteors[i])) {
+            if (this.circleRectCollision(this.meteors[i], this.spacecraft)) {
 
                 this.resolveElasticCollision(this.spacecraft, this.meteors[i]);
                 // blow the meteor up
@@ -189,6 +208,32 @@ CollisionManager.prototype.checkSpacecraftBulletsWithMeteorsEnemies = function()
                 //console.log("Bullet - Enemy collision");
                 this.enemies[k].explode();
                 this.spacecraft.bullets[i].explode();
+            }
+        }
+    }
+};
+
+CollisionManager.prototype.checkEnemyBulletsWithSpacecraft = function() {
+    for (var i = 0; i < this.enemies.length; i++) {
+
+        if (this.enemies[i].type === "enemyBlue" || this.enemies[i].type === "enemyRed") {
+            // blue and red enemies have no bullets
+            continue;
+        }
+
+        for (var j = 0; j < this.enemies[i].bullets.length; j++) {
+            if (this.enemies[i].bullets[j].isOnFire()) {
+                continue;
+            }
+
+            if (this.rectRectCollision(this.spacecraft, this.enemies[i].bullets[j])) {
+                if (this.circleRectCollision(this.spacecraft, this.enemies[i].bullets[j])) {
+                    this.enemies[i].bullets[j].explode();
+
+                    if (!this.spacecraft.isShieldUp) {
+                        this.spacecraft.livesRemaining--;
+                    }
+                }
             }
         }
     }
