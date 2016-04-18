@@ -86,6 +86,9 @@ Game.prototype.render = function() {
 Game.prototype.gameOver = function() {
     window.cancelAnimationFrame(this.frameId);
 
+    this.assetsManager.audios["gameOver"].play();
+    this.assetsManager.audios["gameOver"].currentTime = 0;
+
     jQuery("#score-field").html(this.spacecraft.score);
     jQuery("#game-over-box").show();
 

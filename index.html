@@ -47,6 +47,11 @@
             $("#high-scores-button").click(function() {
                 $("#menu-page").hide();
                 $("#high-scores-page").show();
+
+                var scores = JSON.parse(localStorage.getItem("scores"));
+                for (var i = 0; i < scores.length; i++) {
+                    $("#scores-ul").append("<li>" + scores[i].name + " : " + scores[i].points + "</li>");
+                }
             });
 
             $("#about-button").click(function() {
@@ -55,13 +60,30 @@
             });
 
             $(".back-button").click(function() {
+                $("#scores-ul").html('');
                 $("#high-scores-page").hide();
                 $("#about-page").hide();
                 $("#menu-page").show();
             });
 
             $("#exit-button").click(function() {
-                console.log($("#name-field").val() + " scored " + $("#score-field").html());
+                var playerName = $("#name-field").val() === "" ? "unnamed" : $("#name-field").val();
+                console.log(playerName + " scored " + $("#score-field").html());
+
+                var score = {
+                    points: $("#score-field").html(),
+                    name: playerName
+                };
+
+                var scores = JSON.parse(localStorage.getItem("scores"));
+
+                if (scores === null) {
+                    scores = [];
+                }
+
+                scores.push(score);
+                localStorage.setItem("scores", JSON.stringify(scores));
+
                 $("#canvas").hide();
                 $("#game-over-box").hide();
                 $("#menu-page").show();
@@ -82,6 +104,9 @@
         <div id="high-scores-page">
             <h1>High Scores</h1>
             <a class="back-button" href="#">Back</a>
+            <ul id="scores-ul">
+
+            </ul>
         </div>
         <div id="about-page">
             <h1>About</h1>

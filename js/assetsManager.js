@@ -94,5 +94,8 @@ AssetsManager.prototype.loadSounds = function() {
     this.audios["shieldDown"] = new Audio("assets/Bonus/sfx_shieldDown.ogg");
     this.audios["laserPlayer"] = new Audio("assets/Bonus/sfx_laser1.ogg");
     this.audios["laserEnemy"] = new Audio("assets/Bonus/sfx_laser2.ogg");
+    this.audios["gameOver"] = new Audio("assets/Bonus/sfx_lose.ogg");
+
+    //Sound (c) by Michel Baradari apollo-music.de
     this.audios["explosion"] = new Audio("assets/Bonus/explodemini.wav");
 };
