@@ -1,5 +1,6 @@
 var AssetsManager = function() {
     this.images = [];
+    this.audios = [];
 };
 
 // assets by Kenney Vleugels (www.kenney.nl)
@@ -84,4 +85,14 @@ AssetsManager.prototype.loadAll = function() {
     // score panel
     this.images["livesRemaining"] = new Image();
     this.images["livesRemaining"].src = "assets/PNG/UI/playerLife2_blue.png";
+
+    this.loadSounds();
+};
+
+AssetsManager.prototype.loadSounds = function() {
+    this.audios["shieldUp"] = new Audio("assets/Bonus/sfx_shieldUp.ogg");
+    this.audios["shieldDown"] = new Audio("assets/Bonus/sfx_shieldDown.ogg");
+    this.audios["laserPlayer"] = new Audio("assets/Bonus/sfx_laser1.ogg");
+    this.audios["laserEnemy"] = new Audio("assets/Bonus/sfx_laser2.ogg");
+    this.audios["explosion"] = new Audio("assets/Bonus/explodemini.wav");
 };

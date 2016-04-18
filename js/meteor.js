@@ -167,6 +167,9 @@ Meteor.prototype.updateRotation = function(xCentre) {
 
 Meteor.prototype.explode = function() {
     this.isExploding = true;
+
+    this.assetsManager.audios["explosion"].play();
+    this.assetsManager.audios["explosion"].currentTime = 0;
 };
 
 Meteor.prototype.isOnFire = function() {

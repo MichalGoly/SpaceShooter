@@ -14,6 +14,8 @@ var Game = function(canvas, context) {
     this.lastTime = new Date().getTime();
     this.currentTime = 0;
     this.delta = 0;
+
+    this.frameId = 0;
 };
 
 Game.prototype.newGame = function() {
@@ -30,7 +32,7 @@ Game.prototype.newGame = function() {
 
 // https://coderwall.com/p/iygcpa/gameloop-the-correct-way
 Game.prototype.run = function() {
-    window.requestAnimationFrame(this.run.bind(this));
+    this.frameId = window.requestAnimationFrame(this.run.bind(this));
 
     this.currentTime = new Date().getTime();
     this.delta = this.currentTime - this.lastTime;
@@ -38,6 +40,11 @@ Game.prototype.run = function() {
     if (this.delta > this.interval) {
         this.update(this.delta);
         this.collisionManager.checkAndResolve(this.delta);
+
+        if (this.spacecraft.livesRemaining < 0) {
+            this.gameOver();
+        }
+
         this.render();
 
         this.lastTime = this.currentTime - (this.delta % this.interval);
@@ -76,7 +83,14 @@ Game.prototype.render = function() {
     }
 };
 
+Game.prototype.gameOver = function() {
+    window.cancelAnimationFrame(this.frameId);
 
+    jQuery("#score-field").html(this.spacecraft.score);
+    jQuery("#game-over-box").show();
 
+    // clear the screen to avoid a lag at the start of the next game
+    this.newGame();
+};
 
 

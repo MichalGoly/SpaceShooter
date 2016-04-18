@@ -30,9 +30,11 @@
             $("#high-scores-page").hide();
             $("#about-page").hide();
             $("#canvas").hide();
+            $("#game-over-box").hide();
 
             $("#start-game-button").click(function() {
                 $("#menu-page").hide();
+                $("#game-over-box").hide();
                 $("#canvas").show();
 
                 var canvas = document.getElementById("canvas");
@@ -55,6 +57,13 @@
             $(".back-button").click(function() {
                 $("#high-scores-page").hide();
                 $("#about-page").hide();
+                $("#menu-page").show();
+            });
+
+            $("#exit-button").click(function() {
+                console.log($("#name-field").val() + " scored " + $("#score-field").html());
+                $("#canvas").hide();
+                $("#game-over-box").hide();
                 $("#menu-page").show();
             });
         });
@@ -81,6 +90,12 @@
         <canvas id="canvas" width="600" height="700">
             Your web browser does not support a canvas
         </canvas>
+        <div id="game-over-box">
+            <h1>Game Over</h1>
+            <p>Score: <span id="score-field"></span></p>
+            <input type="text" id="name-field" name="name-field" pattern="^[a-zA-Z]+$" />
+            <input type="button" id="exit-button" name="exit-button" value="Exit" />
+        </div>
     </div>
 </body>
 </html>

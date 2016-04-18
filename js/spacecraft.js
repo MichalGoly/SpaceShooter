@@ -36,6 +36,8 @@ var Spacecraft = function(canvas, inputManager, assetsManager) {
     this.shieldDuriation = 15000;
     this.shieldDelayTimer = 0;
     this.shieldIndex = 0;
+    this.isShieldUpAudio = false;
+    this.isShieldDownAudio = false;
 
     this.livesRemaining = 3;
     this.score = 0;
@@ -209,6 +211,12 @@ Spacecraft.prototype.updateShield = function(delta) {
     if (this.isShieldAnimating && !this.isShieldUp) {
         this.shieldDelayTimer += delta;
 
+        if (!this.isShieldUpAudio) {
+            this.assetsManager.audios["shieldUp"].play();
+            this.assetsManager.audios["shieldUp"].currentTime = 0;
+            this.isShieldUpAudio = true;
+        }
+
         if (this.shieldDelayTimer > 500) {
             if (this.shieldIndex < 3) {
                 this.shieldIndex++;
@@ -224,6 +232,12 @@ Spacecraft.prototype.updateShield = function(delta) {
         // shield down
         this.shieldDelayTimer += delta;
 
+        if (!this.isShieldDownAudio) {
+            this.assetsManager.audios["shieldDown"].play();
+            this.assetsManager.audios["shieldDown"].currentTime = 0;
+            this.isShieldDownAudio = true;
+        }
+
         if (this.shieldDelayTimer > 500) {
             if (this.shieldIndex > 0) {
                 this.shieldIndex--;
@@ -238,6 +252,11 @@ Spacecraft.prototype.updateShield = function(delta) {
     } else if (this.isShieldUp) {
         // count time
         this.shieldDelayTimer += delta;
+
+        if (this.isShieldDownAudio || this.isShieldUpAudio) {
+            this.isShieldDownAudio = false;
+            this.isShieldUpAudio = false;
+        }
 
         if (this.shieldDelayTimer > this.shieldDuriation) {
             // put the shield down
@@ -263,6 +282,9 @@ Spacecraft.prototype.fire = function(color) {
     if (color === "blue" || color === "green") {
         this.bullets.push(new Bullet(this.xPosition + (this.width / 2) - (14 / 2) ,
             this.yPosition, color, this.assetsManager));
+
+        this.assetsManager.audios["laserPlayer"].play();
+        this.assetsManager.audios["laserPlayer"].currentTime = 0;
     } else {
         console.error(color + " is not an appropriate color to fire a bullet!");
     }

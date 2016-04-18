@@ -34,7 +34,7 @@ GameplayManager.prototype.update = function(delta) {
 
     if (this.cleanUpDelayTimer > this.cleanUpDelay) {
         for (var i = 0; i < this.enemies.length; i++) {
-            if (this.enemies[i].isExploded || this.isOffCanvas(this.enemies[i])) {
+            if (this.isOffCanvas(this.enemies[i])) {
                 this.enemies.splice(i, 1);
                 i--;
             }
@@ -57,6 +57,8 @@ GameplayManager.prototype.spawnMeteors = function(delta) {
     this.meteorsSpawnDelayTimer += delta;
 
     if (this.meteorsSpawnDelayTimer > this.meteorsSpawnDelay) {
+        // with this implementation meteors can end up spawned on top of each other
+        // which makes their behaviour unpredictable (game's more fun this way)
         this.meteors.push(new Meteor(this.getMeteorXCentre(), this.getMeteorYCentre(),
             this.getMeteorType(), this.assetsManager));
 

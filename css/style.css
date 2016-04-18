@@ -20,7 +20,7 @@ body {
     border: 5px solid #00f2e5;
 }
 
-#menu-page, #high-scores-page, #about-page, #canvas {
+#menu-page, #high-scores-page, #about-page, #canvas, #game-over-box {
     position: absolute;
     background-color: black;
     color: #00f2e5;

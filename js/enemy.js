@@ -257,7 +257,12 @@ Enemy.prototype.doGreenBehaviour = function() {
         this.goDown = true;
         this.behaviourStarted = true;
     } else if (this.yPosition > 0) {
-        this.startFire = true;
+        // stop shooting after leaving the screen
+        if (this.yPosition >= 700) {
+            this.startFire = false;
+        } else {
+            this.startFire = true;
+        }
     }
 };
 
@@ -320,6 +325,11 @@ Enemy.prototype.doBlackBehaviour = function() {
                 this.goLeft = false;
                 this.goRight = false;
             }
+
+            // stop shooting after leaving the screen
+            if (this.yPosition >= 700) {
+                this.startFire = false;
+            }
         }
     }
 };
@@ -345,10 +355,16 @@ Enemy.prototype.bulletsCleanUp = function(delta) {
 Enemy.prototype.fire = function() {
     this.bullets.push(new Bullet(this.xPosition + (this.width / 2) - (14 / 2),
         this.yPosition + this.height / 2, "red", this.assetsManager));
+
+    this.assetsManager.audios["laserEnemy"].play();
+    this.assetsManager.audios["laserEnemy"].currentTime = 0;
 };
 
 Enemy.prototype.explode = function() {
     this.isExploding = true;
+
+    this.assetsManager.audios["explosion"].play();
+    this.assetsManager.audios["explosion"].currentTime = 0;
 };
 
 Enemy.prototype.isOnFire = function() {
