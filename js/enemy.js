@@ -230,6 +230,7 @@ Enemy.prototype.doBlueBehaviour = function() {
     }
 };
 
+// like blue but quicker
 Enemy.prototype.doRedBehaviour = function() {
     if (!this.behaviourStarted) {
         this.goDown = true;
@@ -252,6 +253,7 @@ Enemy.prototype.doRedBehaviour = function() {
     }
 };
 
+// fly slowly straight down the screen while shooting
 Enemy.prototype.doGreenBehaviour = function() {
     if (!this.behaviourStarted) {
         this.goDown = true;
@@ -266,6 +268,8 @@ Enemy.prototype.doGreenBehaviour = function() {
     }
 };
 
+// fly down, move in the direction of the player, fly into the direction of the
+// wall further away, finally switch to the red behaviour while shooting constantly
 Enemy.prototype.doBlackBehaviour = function() {
     if (!this.behaviourStarted){
         this.goDown = true;
@@ -362,6 +366,7 @@ Enemy.prototype.fire = function() {
 
 Enemy.prototype.explode = function() {
     this.isExploding = true;
+    this.startFire = false;
 
     this.assetsManager.audios["explosion"].play();
     this.assetsManager.audios["explosion"].currentTime = 0;

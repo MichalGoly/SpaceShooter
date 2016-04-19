@@ -49,6 +49,14 @@
                 $("#high-scores-page").show();
 
                 var scores = JSON.parse(localStorage.getItem("scores"));
+                if (scores === null) {
+                    scores = [];
+                }
+
+                scores.sort(function(score1, score2) {
+                    return score2.points - score1.points;
+                });
+
                 for (var i = 0; i < scores.length; i++) {
                     $("#scores-ul").append("<li>" + scores[i].name + " : " + scores[i].points + "</li>");
                 }
@@ -94,7 +102,7 @@
 <body>
     <div id="wrapper">
         <div id="menu-page">
-            <h1>JSGame</h1>
+            <h1>Spaceshooter</h1>
             <ul>
                 <li><a id="start-game-button" href="#">Start Game</a></li>
                 <li><a id="high-scores-button" href="#">High Scores</a></li>

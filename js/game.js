@@ -68,7 +68,6 @@ Game.prototype.update = function(delta) {
 Game.prototype.render = function() {
     this.background.draw(this.context);
     this.spacecraft.draw(this.context);
-    this.scorePanel.draw(this.context);
 
     for (var i = 0; i < this.meteors.length; i++) {
         this.meteors[i].draw(this.context);
@@ -81,6 +80,8 @@ Game.prototype.render = function() {
     for (var i = 0; i < this.enemies.length; i++) {
         this.enemies[i].draw(this.context);
     }
+
+    this.scorePanel.draw(this.context);
 };
 
 Game.prototype.gameOver = function() {
