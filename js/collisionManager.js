@@ -1,3 +1,7 @@
+/**
+ * Developed by Michal Goly on the 20/04/2016
+ */
+
 var CollisionManager = function(game) {
     this.game = game;
     this.spacecraft = game.spacecraft;

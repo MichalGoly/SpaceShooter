@@ -1,3 +1,7 @@
+/**
+ * Developed by Michal Goly on the 20/04/2016
+ */
+
 var GameplayManager = function(game) {
     this.canvas = game.canvas;
     this.assetsManager = game.assetsManager;

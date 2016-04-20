@@ -1,3 +1,7 @@
+/**
+ * Developed by Michal Goly on the 20/04/2016
+ */
+
 var Meteor = function(xCentre, yCentre, type, assetsManager) {
     this.xCentre = xCentre;
     this.yCentre = yCentre;

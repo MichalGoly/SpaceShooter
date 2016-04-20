@@ -59,7 +59,7 @@
 
                 if (scores.length < 10) {
                     for (var i = 0; i < scores.length; i++) {
-                        $("#scores-ul").append("<li>" + scores[i].name + " : " + scores[i].points + "</li>");
+                        $("#scores-ul").append("<li>" + scores[i].name + " : <span class='light-grey'>" + scores[i].points + "</span></li>");
                     }
                 } else {
                     for (var i = 0; i < 10; i++) {

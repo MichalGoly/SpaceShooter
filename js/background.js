@@ -1,3 +1,7 @@
+/**
+ * Developed by Michal Goly on the 20/04/2016
+ */
+
 // Animated background inspired by the tutorial available here:
 // http://blog.sklambert.com/html5-canvas-game-panning-a-background/
 var Background = function(canvas, assetsManager) {

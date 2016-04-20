@@ -1,3 +1,7 @@
+/**
+ * Developed by Michal Goly on the 20/04/2016
+ */
+
 var PowerUp = function(xPosition, yPosition, type, assetsManager) {
     this.xPosition = xPosition;
     this.yPosition = yPosition;

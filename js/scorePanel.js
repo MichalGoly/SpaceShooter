@@ -1,3 +1,7 @@
+/**
+ * Developed by Michal Goly on the 20/04/2016
+ */
+
 var ScorePanel = function(game) {
     this.game = game;
     this.assetsManager = game.assetsManager;
