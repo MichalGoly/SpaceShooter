@@ -28,7 +28,6 @@ Game.prototype.newGame = function() {
     this.gameplayManager = new GameplayManager(this);
     this.inputManager.registerKeyListener();
     this.inputManager.registerMouseListener(this);
-
 };
 
 // https://coderwall.com/p/iygcpa/gameloop-the-correct-way

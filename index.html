@@ -57,8 +57,14 @@
                     return score2.points - score1.points;
                 });
 
-                for (var i = 0; i < scores.length; i++) {
-                    $("#scores-ul").append("<li>" + scores[i].name + " : " + scores[i].points + "</li>");
+                if (scores.length < 10) {
+                    for (var i = 0; i < scores.length; i++) {
+                        $("#scores-ul").append("<li>" + scores[i].name + " : " + scores[i].points + "</li>");
+                    }
+                } else {
+                    for (var i = 0; i < 10; i++) {
+                        $("#scores-ul").append("<li>" + scores[i].name + " : <span class='light-grey'>" + scores[i].points + "</span></li>");
+                    }
                 }
             });
 
@@ -111,19 +117,19 @@
         </div>
         <div id="high-scores-page">
             <h1>High Scores</h1>
-            <a class="back-button" href="#">Back</a>
+            <a class="back-button" href="#">Menu</a>
             <ul id="scores-ul">
 
             </ul>
         </div>
         <div id="about-page">
             <h1>About</h1>
-            <a class="back-button" href="#">Back</a>
+            <a class="back-button" href="#">Menu</a>
             <ul>
-                <li>Most assets by Kenney Vleugels (<a href="http://www.kenney.nl">www.kenney.nl</a>)</li>
-                <li>Explosion spritesheet by Ville Seppanen (<a href="http://villeseppanen.com">villeseppanen.com</a>)</li>
-                <li>Explosion sound by Michel Baradari (<a href="http://apollo-music.de">apollo-music.de</a>)</li>
-                <li>Pause and Play icons by Gregor Črešnar from the Noun Project
+                <li class="about-li">Most assets by Kenney Vleugels (<a href="http://www.kenney.nl">www.kenney.nl</a>)</li>
+                <li class="about-li">Explosion spritesheet by Ville Seppanen (<a href="http://villeseppanen.com">villeseppanen.com</a>)</li>
+                <li class="about-li">Explosion sound by Michel Baradari (<a href="http://apollo-music.de">apollo-music.de</a>)</li>
+                <li class="about-li">Pause and Play icons by Gregor Cresnar from the Noun Project
                     (<a href="https://thenounproject.com/search/?q=pause&i=200252">thenounproject.com</a>)</li>
             </ul>
         </div>
@@ -132,8 +138,8 @@
         </canvas>
         <div id="game-over-box">
             <h1>Game Over</h1>
-            <p>Score: <span id="score-field"></span></p>
-            <input type="text" id="name-field" name="name-field" pattern="^[a-zA-Z]+$" />
+            <p id="game-over-p">Score: <span id="score-field"></span></p>
+            <input type="text" id="name-field" name="name-field" placeholder="Your name" pattern="^[a-zA-Z]+$" />
             <input type="button" id="exit-button" name="exit-button" value="Exit" />
         </div>
     </div>

@@ -4,8 +4,7 @@
 }
 
 body {
-    background-color: #535353;
-    font-family: "kenvector_future_thin", serif;
+    background: url("../assets/Backgrounds/black.png") repeat;
 }
 
 #wrapper {
@@ -22,16 +21,68 @@ body {
 
 #menu-page, #high-scores-page, #about-page, #canvas, #game-over-box {
     position: absolute;
-    background-color: black;
+    background: url("../assets/Backgrounds/blue.png") repeat;
     color: #00f2e5;
     width: 600px;
     height: 700px;
+    text-align: center;
+    font-family: "kenvector_future_thin", serif;
+}
+
+h1 {
+    font-size: 3.8em;
 }
 
 ul {
-    list-style-type: none;
+    list-style: none;
+    padding: 0;
+    font-size: 2em;
+}
+
+.about-li {
+    padding-top: 12px;
 }
 
 a {
     text-decoration: none;
+    color: #00f2e5;
+}
+
+a:visited {
+    color: #00f2e5;
+}
+
+a:hover {
+    color: #f2f2f2;
+}
+
+.light-grey {
+    color: #f2f2f2;
+}
+
+.about-li a {
+    color: #f2f2f2;
+}
+
+.back-button {
+    font-size: 1.3em;
+}
+
+#exit-button {
+    background-color: #00f2e5;
+    color: #f2f2f2;
+    border: none;
+    padding: 12px 22px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+#name-field {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 1.3em;
+}
+
+#game-over-p {
+    font-size: 1.3em;
 }
