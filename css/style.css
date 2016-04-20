@@ -26,8 +26,10 @@ body {
     color: #00f2e5;
     width: 600px;
     height: 700px;
-    text-align: center;
+}
 
+ul {
+    list-style-type: none;
 }
 
 a {

@@ -86,6 +86,12 @@ AssetsManager.prototype.loadAll = function() {
     this.images["livesRemaining"] = new Image();
     this.images["livesRemaining"].src = "assets/PNG/UI/playerLife2_blue.png";
 
+    // icons by Gregor Črešnar
+    this.images["pauseIcon"] = new Image();
+    this.images["pauseIcon"].src = "assets/PNG/UI/pauseButton.png";
+    this.images["resumeIcon"] = new Image();
+    this.images["resumeIcon"].src = "assets/PNG/UI/resumeButton.png";
+
     this.loadSounds();
 };
 

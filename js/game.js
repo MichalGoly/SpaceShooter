@@ -2,12 +2,9 @@ var Game = function(canvas, context) {
     this.canvas = canvas;
     this.context = context;
 
-    this.inputManager = new InputManager();
-    this.inputManager.registerKeyListener();
-    this.inputManager.registerMouseListener();
     this.assetsManager = new AssetsManager();
     this.assetsManager.loadAll();
-
+    this.inputManager = new InputManager();
     // game loop variables
     this.fps = 60;
     this.interval = 1000 / this.fps;
@@ -16,6 +13,7 @@ var Game = function(canvas, context) {
     this.delta = 0;
 
     this.frameId = 0;
+    this.isPaused = false;
 };
 
 Game.prototype.newGame = function() {
@@ -26,8 +24,11 @@ Game.prototype.newGame = function() {
     this.enemies = [];
 
     this.collisionManager = new CollisionManager(this);
-    this.scorePanel = new ScorePanel(this.assetsManager, this.spacecraft);
+    this.scorePanel = new ScorePanel(this);
     this.gameplayManager = new GameplayManager(this);
+    this.inputManager.registerKeyListener();
+    this.inputManager.registerMouseListener(this);
+
 };
 
 // https://coderwall.com/p/iygcpa/gameloop-the-correct-way
@@ -38,8 +39,10 @@ Game.prototype.run = function() {
     this.delta = this.currentTime - this.lastTime;
 
     if (this.delta > this.interval) {
-        this.update(this.delta);
-        this.collisionManager.checkAndResolve(this.delta);
+        if (!this.isPaused) {
+            this.update(this.delta);
+            this.collisionManager.checkAndResolve(this.delta);
+        }
 
         if (this.spacecraft.livesRemaining < 0) {
             this.gameOver();

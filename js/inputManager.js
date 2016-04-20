@@ -12,6 +12,14 @@ InputManager.prototype.registerKeyListener = function() {
     }.bind(this), false);
 };
 
-InputManager.prototype.registerMouseListener = function() {
+// pause, resume game
+InputManager.prototype.registerMouseListener = function(game) {
+    game.canvas.addEventListener("click", function(event) {
+        var x = event.clientX - game.canvas.getBoundingClientRect().left;
+        var y = event.clientY - game.canvas.getBoundingClientRect().top;
 
+        if (x > 5 && x < 30 && y > 669 && y < 694) {
+            game.isPaused = game.isPaused ? false : true;
+        }
+    }.bind(this), false);
 };
