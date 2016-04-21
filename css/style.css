@@ -43,8 +43,21 @@ ul {
     font-size: 2em;
 }
 
+#about-page li, #about-page p {
+    margin: 5px;
+}
+
+#about-page ul {
+    margin: 0;
+}
+
+#credits-h2 {
+    margin-bottom: 17px;
+}
+
 .about-li {
-    padding-top: 12px;
+    padding-top: 2px;
+    font-size: 0.5em;
 }
 
 a {
