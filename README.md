@@ -33,8 +33,9 @@ of meteros and enemies being spawned every second.
 
 ## KNOWN ISSUES
 It is not possible to play the game using the Internet Explorer web browser due to its
-lack of support for the `currentTime` DOM property. Furthermore, this game will not
-work on mobile devices due to the lack of support for touch events.
+lack of support for the `currentTime` DOM property. There is also no support for the
+touch events and canvas does not scale properly on smaller screens, therefore it is
+not really possible to play the game using mobile devices.
 
 ## CREDITS
 
