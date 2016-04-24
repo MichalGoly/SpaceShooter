@@ -27,7 +27,7 @@ or the meteors themselves. All the entities in the game, apart from the laser bu
 power ups, have both the mass and velocities. This way after a collision is being detected,
 it can be resolved in a perfectly elastic manner. Finally, there are two power ups available
 for the player to pick up. A shield which will protect him from the enemies for a duration
-of 15 seconds, and a green bolt capable of decreasing the delay between the players bullets
+of 15 seconds, and a green bolt capable of decreasing the delay between the player's bullets
 being shot. Game becomes more and more difficult as the time progress due to the amount
 of meteros and enemies being spawned every second.
 
