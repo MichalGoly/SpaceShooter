@@ -5,6 +5,8 @@ It is currently hosted here: [http://users.aber.ac.uk/mwg2/ftw/](http://users.ab
 
 ## GAME MECHANICS
 
+![screenshot](img/menu3.png "Game screenshot")
+
 Keyboard arrows can be used to control the spacecraft. Laser bullets are fired automatically, and player
 is not able to control them manually. There are two ways to score points in the game.
 Player can either shoot up the meteors for 10 points each, or the enemy spacecrafts worth
